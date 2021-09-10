@@ -1,0 +1,408 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+html, body{
+	margin: 0px;
+	height: 100%;
+	background-color: #fff;
+	font-family: Arial;
+}
+
+.central{
+	height: 100%;
+	overflow-y: scroll;
+}
+
+
+.head-title{
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 25px;
+	display: block; 
+}
+
+.head-nombre-escuela{
+	
+	font-size: 25px;
+	font-weight: bold ;
+}
+
+
+.head_image_escuela img{
+	
+	
+	background: #eee;
+	border-radius: 10px;
+	width:50px;
+	margin-top: 0px;
+	overflow: hidden;
+}
+
+.navigation{
+	text-align: center;
+	color: white;
+	background: #1E8449;
+	height: 100%;
+}
+
+.navigation a{
+	color: #ddd;
+	margin-top:20px;
+	margin-bottom:20px;
+	display: block;
+	text-decoration: none;
+}
+
+.navigation a:hover{
+	/* cuando posiciono el mouse sobre un enlace*/
+	color:white;
+
+}
+
+
+.navigation .glyphicon{
+	font-size:18px;
+	width: 100%;
+	text-align: justify-all;
+	
+}
+
+
+
+
+
+.btn-logout{
+	cursor:pointer;
+}
+
+.btn-Mi-perfil{
+	font-size:15px;
+	font-family: Arial ;
+	font-weight: bold;
+}
+
+.actived{
+	color: #186A3B;
+}
+
+
+.saludo-home{
+
+	font-family: Arial;
+	font-size: 18px;
+}
+
+.saludo-home .Titulo{
+	margin-left: 0%;
+	font-family: Arial;
+	font-weight: bold;
+	font-size: 40px;
+}
+
+
+
+#user_logged{
+
+	text-decoration: center;
+	background: #1E8449;
+	position: absolute;
+	bottom: 0px;
+	width:75%;
+}
+
+#user_logged .user-image{
+	background: #eee;
+	border-radius: 100px;
+	height: 80px;
+	width:80px;
+	margin: 0px auto;
+	margin-top: 5px;
+	overflow: hidden;
+}
+
+
+#user_logged .user-image img{
+	width:80px;
+}
+
+.alumno-image img{
+	background: #eee;
+	border-radius: 10px;
+	height: 60px;
+	width:60px;
+	margin: 0px auto;
+	margin-top: 0px;
+	overflow: hidden;
+}
+
+
+.cursos-list{
+	margin: 0px;
+	padding: 0px;
+	margin-top:10px;
+	list-style: none;
+}
+
+
+
+.alumno-list{
+	margin: 0px;
+	padding: 0px;
+	margin-top:10px;
+	list-style: none;
+}
+
+.materiass-list{
+	margin: 0px;
+	padding: 0px;
+	margin-top:10px;
+	list-style: none;
+}
+
+.materieta-list{
+	 text-align: left;
+    /*display:inline-block;*/
+	margin: 0px;
+	padding: 0px;
+	margin-top:10px;
+	list-style: none;
+
+	align-self: center;
+	align-items: center;
+	/*text-align: center;*/
+}
+
+.modulete-list{
+	margin: 0px;
+	padding: 0px;
+	margin-top:10px;
+	list-style: none;
+}
+
+.observaciones-list{
+	margin: 30px;
+	padding: 0px;
+	margin-top:10px;
+	/*list-style: none;*/
+	
+}
+
+.curso-item{
+	width: 20%;
+	padding:0px;
+	margin: 0px;
+	height: auto ;
+	
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+.alumno-item{
+	width: auto;
+	padding:0px;
+	margin: 0px;
+	height: auto;
+	
+	margin-top: 20px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.alumno-item .alumno-name{
+	color:black;
+	padding: 10px;
+	background: #ECF0F1 ;
+	font-size: 20px;
+
+}
+
+.materiass-item{
+	width: auto;
+	padding:0px;
+	margin: 0px;
+	height: auto;
+	
+	margin-top: 20px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.materiass-item .materiass-name{
+	color: black;
+	padding: 10px;
+	background: #ECF0F1 ;
+	font-size: 20px;
+
+}
+
+.materiass-name a{
+	color: black;
+	
+
+}
+
+.black{
+	color:black;
+}
+
+.materieta-item{
+	color: black;
+	width: auto;
+	padding:0px;
+	margin: 10px;
+	height: auto;
+	
+	margin-top: 0px;
+	margin-bottom:5px ;
+
+}
+
+
+
+.materieta-item .materieta-name{
+	color:black;
+	padding: 4px;
+	background: #ECF0F1 ;
+	font-size: 20px;
+	
+
+}
+
+.modulete-item{
+	width: auto;
+	padding:0px;
+	margin: 0px;
+	height: auto;
+	
+	margin-left: 40px;
+	margin-top: 10px;
+	margin-bottom:10px ;
+}
+
+.modulete-item .modulete-name{
+	color:black;
+	padding: 10px;
+	background: #ECF0F1 ;
+	font-size: 15px;
+
+}
+
+.observacion-item{
+	width: auto;
+	padding:0px;
+	margin: 10px;
+	height: auto;
+	margin-bottom: 0px;
+	
+}
+
+.observacion-item .observacion-name{
+	color:black;
+	padding: 4px;
+	background: #ECF0F1 ;
+	font-size: 15px;
+}
+
+
+.curso-item .curso-name{
+	color:black;
+	padding: 10px;
+	background: #ECF0F1 ;
+	font-size: 20px;
+
+}
+
+
+.curso-item .modulo-name{
+	color:black;
+	padding: 8px;
+	background: #ECF0F1 ;
+	font-size: 16px;
+
+}
+
+.curso-item .modulo-name a{	
+	color: black;
+
+}
+.curso-item .curso-name a{	
+	color: black;
+
+}
+
+.seguro{
+	margin-top: -30px;
+	background: #ECF0F1;
+	position: absolute;
+	height:40px;
+	padding: 10px;
+}
+
+.curso-titulo{
+	color:black;
+}
+
+.alumno-titulo{
+	color:black;
+
+}
+
+.selector-item{
+	list-style: none;
+}
+
+.alumno_image_for_edit img,
+.docente_image_for_edit img{
+	height: 200px;
+	border-radius: 40px;
+	margin-left: 40px;
+}
+
+.escuela_image_portada img{
+	float: right;
+	width: 240px;
+	border-radius: 40px;
+	
+}
+
+.escuela_image_portada{
+	float: right;
+	margin-top: 50px;
+	width: 240px;
+	border-radius: 40px;
+	
+}
+
+.pagina{
+	text-align: center;
+}
+
+.Identificate{
+	margin-left: 19%;
+}
+
+.loguear{
+	margin-left: 16%;
+	width: auto;
+}
+
+.validacion{
+	color: red;
+}
+
+hr {
+	border: 2px inset #eee; 
+	height: 1px;
+	 width: 80%;
+}
+
+.eliminar{
+	color: red;
+}
+
+.alert-danger{
+	margin-left: 25%;
+	width: auto;
+}
+
+.Inicial{
+	margin-top: 50px;
+}

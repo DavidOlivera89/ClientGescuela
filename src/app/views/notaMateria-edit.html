@@ -1,0 +1,127 @@
+<div *ngIf="identity && identity.alumno!=true" class="curso-box" >
+<a href="#" [routerLink]="['/materia', materia._id]" >
+	<h1 *ngIf="nota" class="curso-titulo">
+	{{nota.materia.nombre}}  /  {{nota.materia.ano_cursado}} año / {{nota.materia.ano_gregoriano}}
+</h1>
+</a>
+<a href="#" [routerLink]="['/curso', curso._id]" >
+	<h1 class="curso-titulo">
+	<h1>{{curso.ano}} {{curso.division}}</h1>
+</h1>
+</a>
+<br>
+
+<br>
+	<a [routerLink]= "['/notas-por-curso', nota.curso._id, nota.materia._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Cancelar</a>
+
+	<a *ngIf="identity.profesor == true && nota && identity._id == nota.materia.profesor1 || nota.materia.profesor2 && nota.materia.profesor2==identity._id" (click)="onDeleteConfirm(nota._id)" class="btn btn-default ">
+					Eliminar Nota
+				</a>
+		
+		<div class="seguro" *ngIf="confirmado==nota._id && identity.profesor == true && identity._id ==nota.materia.profesor1 || nota.materia.profesor2 && confirmado==nota._id">
+						<label>¿Estas seguro?</label>
+						<a (click)="onDeleteNota(nota._id)" class="btn btn-sm btn-danger">
+							Eliminar
+						</a>
+						<a (click)="onCancelNota()" class="btn btn-sm btn-primary">
+							Cancelar
+						</a>
+		</div>
+<hr>	
+<h2>{{titulo}}</h2>
+
+
+
+<form #formAddNota="ngForm" (ngSubmit)="onSubmit()" class="col-lg-4"> 
+	
+	<p>
+		<label>Fecha: </label>
+		<input type='Date' #fecha="ngModel" name="fecha" [ngModel]='nota.fecha | date:"yyyy-MM-dd" '  (ngModelChange)='notaMateria.fecha=$event' max="this.ano-this.mes-this.dia" required class="form-control" (change)="onFecha_NotaChanged(fecha.value)">
+		<span *ngIf="fechaInvalida || !fecha.valid && fecha.touched" class="validacion" >
+			Debe ingresar una fecha válida, deberá ser del corriente año y menor o igual a la fecha actual.
+		</span>	
+	</p>
+
+	
+	<p>
+		<label>Alumno:</label>
+		<select #alumno="ngModel" name="alumno" [(ngModel)]="nota.alumno._id" class="form-control" required>
+		<option [value]="nota.alumno._id" > {{nota.alumno.surname}}, {{nota.alumno.name}} </option>
+		</select>
+		<span *ngIf="!alumno.valid && alumno.touched" class="validacion">
+				Es obligatorio seleccionar al alumno que desea calificar.
+			</span>
+	</p>
+
+ 
+	<p>
+		<label>Identificador de la instancia de la Nota*:</label>
+		<select #identificador="ngModel" name="identificador" [(ngModel)]="nota.identificador"  required class="form-control" >
+			<option value="1° CUATRIMESTRE">1° CUATRIMESTRE</option>
+			<option value="2° CUATRIMESTRE">2° CUATRIMESTRE</option>
+			<option value="1° TRIMESTRE">1° TRIMESTRE</option>
+			<option value="2° TRIMESTRE">2° TRIMESTRE</option>
+			<option value="3° TRIMESTRE">3° TRIMESTRE</option>
+			<option value="1° BIMESTRE">1° BIMESTRE</option>
+			<option value="2° BIMESTRE">2° BIMESTRE</option>
+			<option value="3° BIMESTRE">3° BIMESTRE</option>
+			<option value="4° BIMESTRE">4° BIMESTRE</option>
+			<option value="CALIFICACION FINAL">CALIFICACION FINAL</option>
+		</select>
+		<span *ngIf="!identificador.valid && identificador.touched" class="validacion">
+				Es obligatorio seleccionar el identificador de la instancia a la que corresponde la nota.
+			</span>
+	</p>
+
+
+	<p>
+		<label>Calificación:</label>
+		<select #valor="ngModel" name="valor" [(ngModel)]="nota.valor"  required class="form-control" >
+			<option value="10">10</option>
+			<option value="9">9</option>
+			<option value="8">8</option>
+			<option value="7">7</option>
+			<option value="6">6</option>
+			<option value="5">5</option>
+			<option value="4">4</option>
+			<option value="3">3</option>
+			<option value="2">2</option>
+			<option value="1">1</option>
+		</select>
+		<span *ngIf="!valor.valid && valor.touched" class="validacion">
+			Es obligatorio ingresar el valor de la calificación.
+		</span>
+	</p>
+
+	<!-- <p>
+			<label>Calificaion:</label>
+			<input type="number" min = "1" max=10 step="0.50" name="valor" #valor="ngModel" [(ngModel)]="notaMateria.valor" class="form-control" required />
+			<span *ngIf="!valor.valid && valor.touched">
+				Es obligatorio ingresar el valor de la calificación.
+			</span>
+		</p> -->
+
+
+
+	<p>
+		<label>Descripción:</label>
+		<textarea type="text" #descripcion="ngModel" name="descripcion" [(ngModel)]="nota.descripcion"  class="form-control" rows="3"></textarea>
+		<span *ngIf="!descripcion.valid || descripcion.touched">
+			 Puede ingresar una descripcion de la evaluación del alumno.
+		</span>	
+	</p>
+
+
+	<!-- <div *ngIf= "is_edit">
+		<label>SI QUIERO ACA PODRIA EDITAR</label>>
+
+	</div> -->
+	
+	<input type="submit" value="{{titulo}}" [disabled]="!formAddNota.form.valid || fechaInvalida"   class="btn btn-succes"/>
+
+</form>
+</div>
+<div class='col-lg-6' *ngIf="!identity || identity.alumno == true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>

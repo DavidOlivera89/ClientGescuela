@@ -1,0 +1,64 @@
+<div  *ngIf="identity && identity.alumno != true">
+<a href="#" [routerLink]="['/alumno', alumno._id]" >
+	<h1 class="alumno-titulo">
+		{{alumno.name}}
+		{{alumno.surname}}
+	</h1>
+</a>
+	<p>Alumno - <a href="#" [routerLink]="['/curso', alumno.ultimoCurso._id]" >{{alumno.ultimoCurso.ano}} {{alumno.ultimoCurso.division}} {{alumno.ultimoCurso.ano_gregoriano}}</a></p>
+	<p>{{alumno.email}}<p>
+<br>
+<a [routerLink]= "['/observaciones-alumno', alumno._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Cancelar</a>
+
+
+				
+<hr>
+<h2>{{titulo}}</h2>
+
+	<div *ngIf = "alertMessage">	
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+	</div>
+<div class='col-lg-6'>
+<form #formModulo="ngForm" (ngSubmit)="onSubmit()" class="col-lg-8"> 
+	
+	<p>
+		<label>Fecha*: </label>
+		<input type='Date' #fecha="ngModel" name="fecha" [ngModel]='observacionAlumno.fecha | date:"yyyy-MM-dd" '  (ngModelChange)='observacionAlumno.fecha=$event' max="this.ano-this.mes-this.dia" required class="form-control" (change)="onFecha_NotaChanged(fecha.value)">
+		<span *ngIf="fechaInvalida || !fecha.valid && fecha.touched" class="validacion">
+			Debe ingresar una fecha válida, deberá ser del corriente año y menor o igual a la fecha actual.
+		</span>	
+	</p>
+
+	<p>
+		<label>Hora*: </label>
+		<input type="time" #hora="ngModel" name="hora" [(ngModel)]='observacionAlumno.hora' required class="form-control" />
+		<span *ngIf="!hora.valid && hora.touched" class="validacion">
+			Es obligatorio ingresar un horario a la observación. El formato debe ser: hh:mm hs.
+		</span>	
+	</p>
+
+	<p>
+		<label>Descripción*:</label>
+		<textarea type="text" #descripcion="ngModel" name="descripcion" [(ngModel)]="observacionAlumno.descripcion" required class="form-control" rows="3"></textarea>
+		<span *ngIf="!descripcion.valid && descripcion.touched" class="validacion">
+			 Debe ingresar una descripcion de por qué se realiza la observación.
+		</span>	
+	</p>
+
+	<!-- <div *ngIf= "is_edit">
+		<label>SI QUIERO ACA PODRIA EDITAR</label>>
+
+	</div> -->
+
+	<input type="submit" value="{{titulo}}" [disabled]="!formModulo.form.valid || fechaInvalida || descripcion=='' " class="btn btn-succes"/>
+
+</form>
+</div>
+</div>
+<div class='col-lg-6' *ngIf="!identity || identity.alumno == true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>

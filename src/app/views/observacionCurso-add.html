@@ -1,0 +1,59 @@
+<div class='col-lg-6' *ngIf="identity && identity.alumno != true">
+<a href="#" [routerLink]="['/curso', curso._id]" >
+	<h1 class="curso-titulo">
+		{{curso.ano}}
+		{{curso.division}}
+		{{curso.ano_gregoriano}}
+	</h1>
+</a>
+
+<h2>{{titulo}}</h2>
+<a [routerLink]= "['/observaciones-curso', curso._id]"   class="btn btn-default" >Cancelar</a>
+<hr>
+
+	<div *ngIf = "alertMessage">	
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+	</div>
+
+<form #formModulo="ngForm" (ngSubmit)="onSubmit()" class="col-lg-8"> 
+	
+	<p>
+		<label>Fecha*: </label>
+		<input type='Date' #fecha="ngModel" name="fecha" [ngModel]='observacionCurso.fecha | date:"yyyy-MM-dd" '  (ngModelChange)='observacionCurso.fecha=$event' max="this.ano-this.mes-this.dia" required class="form-control"(change)="onFecha_NotaChanged(fecha.value)">
+		<span *ngIf="fechaInvalida || !fecha.valid && fecha.touched" class="validacion">
+			Debe ingresar una fecha válida, deberá ser del corriente año y menor o igual a la fecha actual.
+		</span>	
+	</p>
+
+	<p>
+		<label>Hora*: </label>
+		<input type="time" #hora="ngModel" name="hora" [(ngModel)]='observacionCurso.hora' required class="form-control" />
+		<span *ngIf="!hora.valid && hora.touched" class="validacion">
+			Es obligatorio ingresar un horario a la observación. El formato debe ser: hh:mm hs.
+		</span>	
+	</p>
+
+	<p>
+		<label>Descripción*:</label>
+		<textarea type="text" #descripcion="ngModel" name="descripcion" [(ngModel)]="observacionCurso.descripcion" required class="form-control" rows="3"></textarea>
+		<span *ngIf="!descripcion.valid && descripcion.touched" class="validacion">
+			 Debe ingresar una descripcion de por qué se realiza la observación.
+		</span>	
+	</p>
+
+	<!-- <div *ngIf= "is_edit">
+		<label>SI QUIERO ACA PODRIA EDITAR</label>>
+
+	</div> -->
+
+	<input type="submit" value="{{titulo}}" [disabled]="!formModulo.form.valid || fechaInvalida || descripcion=='' " class="btn btn-succes"/>
+
+</form>
+</div>
+<div class='col-lg-6' *ngIf="!identity || identity.alumno == true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>

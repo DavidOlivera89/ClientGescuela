@@ -1,0 +1,111 @@
+<div *ngIf="modulo" class="materia-box">
+<a href="#" [routerLink]="['/materia', modulo.materia._id]" >
+	<h1 class="curso-titulo">
+	{{modulo.materia.nombre}}  /  {{modulo.materia.ano_cursado}} año / {{modulo.materia.ano_gregoriano}}
+		
+	</h1>
+</a>	
+<a href="#" [routerLink]="['/modulo', modulo._id]" >
+	<h1 class="curso-titulo">
+	{{modulo.nombre}}
+		
+	</h1>
+</a>	
+
+Profesor/es:
+<a  href="#" [routerLink]="['/docente', modulo.profesor1._id]" >	
+	{{modulo.profesor1.surname}}, {{modulo.profesor1.name}}
+</a>
+--
+<a *ngIf="modulo.profesor2" href="#" [routerLink]="['/docente', modulo.profesor2._id]" >	
+	{{modulo.profesor2.surname}}, {{modulo.profesor2.name}}
+</a>
+	
+<br>
+<br>	
+<a [routerLink]= "['/editar-modulo', modulo._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Editar Módulo</a>
+<a *ngIf="identity.preceptor == true" (click)="onDeleteConfirm(modulo._id)" class="btn btn-default ">
+					Eliminar Módulo
+				</a>
+		
+		<div class="seguro" *ngIf="identity.preceptor == true && confirmado==modulo._id">
+						<label>¿Estas seguro?</label>
+						<a (click)="onDeleteModulo(modulo._id)" class="btn btn-sm btn-danger">
+							Eliminar
+						</a>
+						<a (click)="onCancelModulo()" class="btn btn-sm btn-primary">
+							Cancelar
+						</a>
+		</div>
+
+<a [routerLink]= "['/notas-modulo', modulo._id]" *ngIf="identity.preceptor==true || identity.tutor==true ||  modulo.profesor1 == identity._id || modulo.profesor2==identity._id"  class="btn btn-default" >Ver Notas</a>
+<br>	
+<hr>
+
+<div *ngIf='modulo'>
+	<h3> Información del módulo:</h3>
+	<ul>
+	<p>
+	Horarios: {{modulo.horarios}}
+	<br>
+	Planificación: {{modulo.planificacion}}
+	<br>
+	Bibliografía: {{modulo.bibliografia}}
+	<br>
+	
+	</p>
+	</ul>
+</div>	
+	<!-- {{modulo.ano_cursado}} -->
+	
+	<!-- <a [routerLink]= "['/crear-modulo', materia._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Añadir Modulo</a> -->
+	
+
+	
+
+	
+	<div class="clearfix" *ngIf=cursos></div>
+	<ul class="materieta-list" *ngIf="identity">
+	<h3>Cursos:</h3>	
+	<li *ngFor="let curso of cursos"  class="col-lg-6 materieta-item">
+		<div class="materieta-name" >	
+				
+			<a class="black" *ngIf="identity && identity.alumno==false" href="#" [routerLink]="['/curso', curso._id]">
+							{{curso.ano}} {{curso.division}} {{curso.ano_gregoriano}}
+							<!-- {{modulo.division}} -->
+							<!-- {{modulo.ano_gregoriano}} -->
+						</a>
+						<a class="black" *ngIf="identity.alumno==true"  >
+							{{curso.ano}} {{curso.division}} {{curso.ano_gregoriano}}
+							<!-- {{modulo.division}} -->
+							<!-- {{modulo.ano_gregoriano}} -->
+						</a>
+
+
+		<!-- 	<div class="buttons" *ngIf="identity.preceptor== true">
+				<a [routerLink]="['/editar-curso', curso._id]" class="btn btn-sm btn-warning">		Editar
+				</a>
+				<a (click)="onDeleteConfirm(curso._id)" class="btn btn-sm btn-danger">
+					Borrar
+				</a>
+
+
+			</div>
+
+			<div class="seguro" *ngIf="confirmado==curso._id">
+				<a (click)="onDeleteCurso(curso._id)" class="btn btn-sm btn-danger">
+					Eliminar
+				</a>
+				<a (click)="onCancelCurso()" class="btn btn-sm btn-primary">
+					Cancelar
+				</a>
+			</div> -->
+			
+
+		</div>
+	</li>
+
+</ul>
+
+
+</div>

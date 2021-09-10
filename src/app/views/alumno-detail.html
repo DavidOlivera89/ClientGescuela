@@ -1,0 +1,144 @@
+<div id="alumno">
+<div id="infoalumno" *ngIf="alumno && identity" class="alumno-box">
+<a href="#" [routerLink]="['/alumno', alumno._id]" >
+	<h1 class="alumno-titulo">
+		{{alumno.name}}
+		{{alumno.surname}}
+	</h1>
+</a>	
+	<p>Alumno - <a *ngIf= "identity.alumno!=true" href="#" [routerLink]="['/curso', alumno.ultimoCurso._id]" >{{alumno.ultimoCurso.ano}} {{alumno.ultimoCurso.division}} {{alumno.ultimoCurso.ano_gregoriano}}</a><a *ngIf= "identity.alumno==true"  >{{alumno.ultimoCurso.ano}} {{alumno.ultimoCurso.division}} {{alumno.ultimoCurso.ano_gregoriano}}</a></p>
+	<p>{{alumno.email}}</p>
+
+<br>
+<a id="otro" [routerLink]= "['/editar-alumno', alumno._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Editar Alumno</a>
+
+
+
+		<a *ngIf="identity.preceptor == true" (click)="onDeleteConfirm(alumno._id)" class="btn btn-default ">
+					Eliminar Alumno
+				</a>
+		
+		<div class="seguro" *ngIf="identity.preceptor == true && confirmado==alumno._id">
+						<label>¿Estas seguro?</label>
+						<a (click)="onDeleteAlumno(alumno._id)" class="btn btn-sm btn-danger">
+							Eliminar
+						</a>
+						<a (click)="onCancelAlumno()" class="btn btn-sm btn-primary">
+							Cancelar
+						</a>
+		</div>
+
+	<a [routerLink]= "['/observaciones-alumno', alumno._id]" *ngIf="identity.preceptor == true || identity.profesor==true || identity.tutor==true || identity._id== alumno._id"  class="btn btn-default" >Ver Observaciones</a>
+
+	<a [routerLink]= "['/notas-alumno', alumno._id]" *ngIf="identity.preceptor == true || identity.tutor==true || identity._id== alumno._id"  class="btn btn-default" >Ver todas las notas</a>
+
+<hr>
+</div>
+<br>
+<div id='alumno' *ngIf='alumno'>
+	<div id='alumno' class="alumno_image_for_edit" *ngIf="alumno.image && alumno.image != 'null'">
+				<img id='alumno' src="{{url + 'get-image-alumno/' + alumno.image }}" />
+		</div>
+	<h3 id="Info"> Información Personal:</h3>
+	<ul>
+	<p>
+	Dni: {{alumno.n_dni}}
+	<br>
+	Fecha de nacimiento: {{alumno.fecha_nacimiento}}
+	<br>
+	Teléfono: {{alumno.telefono}}
+	<br>
+	email: {{alumno.email}}
+	</p>
+	
+	</ul>
+	<hr>
+</div>
+
+<div>
+	
+	<ul class="materieta-list" *ngIf="identity &&  identity.alumno!=true" >
+
+	<h3>Curso:</h3>	
+	<li class="col-lg-6 materieta-item">
+		<div class="materieta-name" >	
+			<a class="black" href="#" [routerLink]="['/curso', curso._id]">
+			{{curso.ano}}
+			{{curso.division}}
+			{{curso.ano_gregoriano}}
+			</a>
+			
+		</div>
+	</li>
+	</ul>
+
+	<ul class="materieta-list" *ngIf="identity &&  identity.alumno==true" >
+
+	<h3>Curso:</h3>	
+	<li  class="col-lg-6 materieta-item">
+		<div class="materieta-name" >	
+			<a class="black">
+			{{curso.ano}}
+			{{curso.division}}
+			{{curso.ano_gregoriano}}
+			</a>
+			
+		</div>
+	</li>
+	</ul>
+
+	<div class="clearfix" *ngIf="materias"></div>
+	<br>
+	<h3>Materias y Módulos:</h3>
+
+	<ul class="materieta-list" *ngIf="identity"> 
+
+
+	 
+		<li *ngFor="let materia of materias"  class="col-lg-6 materieta-item">
+			<div class="materieta-name">
+			<a  class="materieta-name" href="link-docente"  [routerLink]="['/materia', materia._id]">{{materia.nombre}} </a>
+
+			<a *ngIf= "identity.preceptor==true || identity.tutor==true || identity._id==alumno._id || identity._id== materia.profesor1._id ||  materia.profesor2 && materia.profesor2._id ==identity._id " type="button" class="btn btn-link" [routerLink]="['/notas-materia-alumno', materia._id, alumno._id]">Ver notas del alumno</a>
+
+			<!-- <div *ngIf="mostrarLasNotas==true">
+				<li *ngFor="let notasMateria of notasMateria" class="nota-name"></li>
+					<p>
+					 nota: {{notasMateria.valor}}. El día {{notasMateria.fecha}}.
+					</p>
+					<p>{{notasMateria.descripcion}}	
+					
+					</p>
+
+			</div> -->
+			</div>
+		<div> 
+
+		
+		<!--		
+		-->
+		<div *ngFor="let modulo of modulos"   class="col-lg-12 modulete-item">
+			<li *ngIf= "materia._id == modulo.materia" class="col-lg-6" class="materieta-name" >	
+										
+					<a  class="materieta-name" href="link-docente"  [routerLink]="['/modulo', modulo._id]">
+					{{modulo.nombre}}
+					</a>
+					<button *ngIf= "identity.preceptor==true || identity.tutor==true || identity._id==alumno._id || identity._id== modulo.profesor1._id || modulo.profesor2 && modulo.profesor2._id == identity._id "type="button" class="btn btn-link" [routerLink]="['/notas-modulo-alumno', modulo._id, alumno._id]">Ver notas del alumno</button>
+
+					
+			 	
+ 			</li>
+ 			
+		</div>
+
+		<!-- -->
+		</div>
+		</li>
+		<!-- -->
+		</ul>
+
+	
+	
+		
+</div>
+</div>

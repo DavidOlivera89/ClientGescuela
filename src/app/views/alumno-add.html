@@ -1,0 +1,121 @@
+<div class="col-lg-6" *ngIf="identity && identity.preceptor==true" >
+	<h1>
+		{{titulo}}
+		<!--FORMULARIO-->
+	</h1>
+
+<a [routerLink]= "['/alumnos', 1]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Cancelar</a>
+<hr>
+
+
+	<div *ngIf = "alertMessage">
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+			
+	</div>
+
+	<form #formAlumno= "ngForm" (ngSubmit)= "onSubmit()" class= "col-md-10" name="form-add-alumno">
+		<p>
+			<label>Nombres:</label>
+			<input type="text" #name="ngModel" name="name" [(ngModel)]="alumno.name" class="form-control" required />
+			<span *ngIf="!name.valid && name.touched" class="validacion">
+				Es obligatorio ingresar un nombre. 
+			</span>
+		</p>
+		
+		<p>
+			<label>Apellidos:</label>
+			<input type="text" name="surname" #surname="ngModel" [(ngModel)]="alumno.surname" class="form-control" required />
+			<span *ngIf="!surname.valid && surname.touched" class="validacion" >
+				Es obligatorio ingresar un apellido.
+			</span>
+
+		</p>		
+
+		<p>
+			<label>Dni n°:</label>
+			<input #n_dni type="text" min = "10000000" max=99999999 name="n_dni" #n_dni="ngModel" [(ngModel)]="alumno.n_dni" class="form-control" pattern="[0-9]{8}" required (change)="onDniChanged(n_dni.value)"/>
+			<span *ngIf="dniInvalido" class="validacion">
+				Debe ingresar un n° de DNI válido.
+			</span>
+		</p>
+
+		<p>
+		<label>Fecha de nacimiento: </label>
+		<input type='Date' #fecha="ngModel" name="fecha" [ngModel]='alumno.fecha_nacimiento | date:"yyyy-MM-dd" '  (ngModelChange)='alumno.fecha_nacimiento=$event' max="this.ano-this.mes-this.dia" required class="form-control" (change)="onFecha_NacimientoChanged(fecha.value)">
+		<span *ngIf="fechaInvalida || !fecha.valid && fecha.touched" class="validacion">
+			Debe ingresar una fecha válida.
+		</span>	
+		</p>
+
+
+		<p>
+		<label>N° telefónico del Padre o Tutor: </label>
+		<input type="text" name="telefono" #telefono="ngModel" [(ngModel)]="alumno.telefono" class="form-control" pattern="[0-9]{10}" size="15" placeholder="2975945540" required />
+			<span *ngIf="!telefono.valid && telefono.touched" class="validacion">
+				Debe ingresar un nro de telefono válido.
+			</span>	
+		</p>
+
+		<p>
+
+		<p>
+			<label>Correo electronico:</label>
+			<input type='email' name="email" #email="ngModel" [(ngModel)]="alumno.email" class="form-control" placeholder= "usuario@email.com" pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$" required />
+			<span *ngIf="!email.valid && email.touched" class="validacion">
+				Debe ingresar un email válido.
+			</span>
+
+		</p>
+
+
+		<p>
+			<label>Contraseña:</label>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="alumno.password" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched" class="validacion">
+				Es obligatorio ingresar una contraseña.
+			</span>
+		
+		</p>
+
+		<!-- <p>
+			<label>Confirmar Contraseña:</label>
+			<input type="password" name="confirma_password" #confirma_password="ngModel" [(ngModel)]="linea" class="form-control" required />
+			<span *ngIf="confirma_password!=password && confirma_password.touched">
+				Debe ingresar la misma contraseña.
+			</span>
+		</p> -->
+
+		<p>
+			<label>Curso:</label>
+		<select #curso="ngModel" name="curso" [(ngModel)]="alumno.ultimoCurso" class="form-control" required>
+		<option [value]="curso._id" *ngFor="let curso of cursos">{{curso.ano}} {{curso.division}} --- año {{curso.ano_gregoriano}}</option>
+		</select>
+		<span *ngIf="!curso.valid && curso.touched" class="validacion">
+				Es obligatorio seleccionar un curso.
+			</span>
+		</p>
+		
+		<!-- <div class="image_for_edit" *ngIf= "alumno.image && alumno.image != 'null'">
+			<img src="{{url + 'getImageDocente/' + alumno.image}}" style="width: 160px;" />
+			
+		</div>
+
+		<p>
+			<label>Sube una foto</label>
+			<input type="file" placeholder="Subir imagen..." (change)="fileChangeEvent($event)"/>
+		</p> -->
+
+
+
+		<input type="submit" value="{{titulo}}" [disabled]="!formAlumno.form.valid || dniInvalido || fechaInvalida" class="btn btn-succes" />
+	</form>
+</div>
+
+<div class='col-lg-6' *ngIf="!identity || identity.preceptor != true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>
+

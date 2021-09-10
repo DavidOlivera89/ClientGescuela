@@ -1,0 +1,119 @@
+<div class="col-lg-6" *ngIf="identity && identity.preceptor==true" >
+	<h1>
+		{{titulo}}
+		<!--FORMULARIO-->
+	</h1>
+<a [routerLink]= "['/docentes', 1]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Cancelar</a>
+<br>
+<hr>
+	<div *ngIf = "alertMessage">
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+			
+	</div>
+
+	<form #formDocente= "ngForm" (ngSubmit)= "onSubmit()" class= "col-md-10" name="form-add-docente">
+		<p>
+			<label>Nombres:</label>
+			<input type="text" #name="ngModel" name="name" [(ngModel)]="docente.name" class="form-control" required />
+			<span *ngIf="!name.valid && name.touched" class="validacion">
+				Es obligatorio ingresar un nombre. 
+			</span>
+		</p>
+		
+		<p>
+			<label>Apellidos:</label>
+			<input type="text" name="surname" #surname="ngModel" [(ngModel)]="docente.surname" class="form-control" required />
+			<span *ngIf="!surname.valid && surname.touched" class="validacion">
+				Es obligatorio ingresar un apellido.
+			</span>
+
+		</p>		
+
+		<p>
+			<label>Dni n°:</label>
+			<input #n_dni type="text" min = "10000000" max=99999999 name="n_dni" #n_dni="ngModel" [(ngModel)]="docente.n_dni" class="form-control" pattern="[0-9]{8}"  (change)="onDniChanged(n_dni.value)" required/>
+			<span *ngIf="dniInvalido || !n_dni.valid && n_dni.touched"  class="validacion">
+				Debe ingresar un n° de DNI válido.
+			</span>
+		</p>
+
+		<p>
+		<label>Fecha de nacimiento: </label>
+		<input type='Date' #fecha="ngModel" name="fecha" [ngModel]='docente.fecha_nacimiento | date:"yyyy-MM-dd" '  (ngModelChange)='docente.fecha_nacimiento=$event' max="this.ano-this.mes-this.dia" required class="form-control" (change)="onFecha_NacimientoChanged(fecha.value)">
+		<span *ngIf="fechaInvalida || !fecha.valid && fecha.touched" class="validacion">
+			Debe ingresar una fecha válida.
+		</span>	
+		</p>
+
+
+		<p>
+		<label>N° telefónico: </label>
+		<input type="text" name="telefono" #telefono="ngModel" [(ngModel)]="docente.telefono" class="form-control" pattern="[0-9]{10}" size="15" placeholder="2975945540" required />
+			<span *ngIf="!telefono.valid && telefono.touched" class="validacion">
+				Debe ingresar un nro de telefono válido.
+			</span>	
+		</p>
+
+		<p>
+
+		<p>
+			<label>Correo electronico:</label>
+			<input type='email' name="email" #email="ngModel" placeholder="usuario@email.com" [(ngModel)]="docente.email" class="form-control" pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$" required />
+			<span *ngIf="!email.valid && email.touched" class="validacion">
+				Debe ingresar un email válido.
+			</span>
+
+		</p>
+
+
+		<p>
+			<label>Contraseña:</label>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="docente.password" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched" class="validacion">
+				Es obligatorio ingresar una contraseña.
+			</span>
+		
+		</p>
+
+		<p>
+			<label>Funciones que cumple:</label>
+			<br>
+			<input #esTutorCheckBox id="esTutorCheckBox" type="checkbox"  [checked]="esTutor" (change)="onEsTutorChanged(esTutorCheckBox.checked)" value="true"/> Tutor
+			<br>
+			<input #esProfesorCheckBox id="esProfesorCheckBox" type="checkbox"  [checked]="esProfesor" (change)="onEsProfesorChanged(esProfesorCheckBox.checked)" /> Profesor
+			<br>
+			<input #esPreceptorCheckBox id="esPreceptorCheckBox" type="checkbox"  [checked]="esPreceptor" (change)="onEsPreceptorChanged(esPreceptorCheckBox.checked)" /> Preceptor
+			<br>
+			<span *ngIf="!checkedValido" class="validacion">
+				Debe seleccionar al menos una función.
+			</span>
+			
+
+
+		</p>
+			
+		
+		<!-- <div class="image_for_edit" *ngIf= "docente.image && docente.image != 'null'">
+			<img src="{{url + 'getImageDocente/' + docente.image}}" style="width: 160px;" />
+			
+		</div>
+
+		<p>
+			<label>Sube una foto</label>
+			<input type="file" placeholder="Subir imagen..." (change)="fileChangeEvent($event)"/>
+		</p> -->
+
+
+
+		<input type="submit" value="{{titulo}}" [disabled]="!checkedValido || dniInvalido || fechaInvalida || !formDocente.form.valid || esTutor " class="btn btn-succes" />
+	</form>
+</div>
+
+<div class='col-lg-6' *ngIf="!identity || identity.preceptor != true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>
+

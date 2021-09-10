@@ -1,0 +1,82 @@
+<!-- <div class="anteTitulo">
+	<h1 class="titulo"> </h1>
+</div>
+
+<div class="col-lg-8 col-lg-offset-1">
+<div class="saludo-home" >
+	<h1 class= "Titulo">Bienvenido, a APP_ESCUELA.</h1>
+	<p>Esta es una aplicación destinada a la gestión de la Escuela N° 707 "Ciudad de Yapeyú".</p>
+	<p><a class= "btn btn-primary btn-lg"  href="#" role="button">Learn more</a></p>-->
+<!--<</div>
+</div> -->
+
+<div *ngIf="identity" class="docente-box">
+	<h1>
+		{{identity.name}}	
+		{{identity.surname}}
+	</h1>
+</div>
+	
+<!-- 	<div>
+	<h3 *ngIf="identity.alumno==true" class="docente-box">
+			</h3>
+	
+	<h3 *ngIf="!identity.alumno==true" class="docente-box">
+			</h3>
+
+	</div>
+
+<br>
+<div>
+<ul class="curso-list" *ngIf="identity && identity.alumno==true"> 
+<h3>Curso:</h3>
+
+	<li *ngIf= "alumno" class="col-lg-3 curso-item">
+					<div class="curso-name" >	
+						<a >
+							{{alumno.ultimoCurso.ano}} {{alumno.ultimoCurso.division}} {{alumno.ultimoCurso.ano_gregoriano}}
+						
+						</a>
+						
+					</div>
+				</li>
+</ul>
+
+</div>
+<br>
+
+<div class="clearfix"></div>
+<br>	
+<div>
+<ul class="materias-list" *ngIf="identity && identity.alumno"> 
+<h3>Materias:</h3>
+
+
+	<li *ngFor="let materia of materias"  class="col-lg-3 curso-item">
+		<div class="curso-name" >	
+			<a href="#" [routerLink]="['/materia', materia._id]">
+			{{materia.nombre}}
+
+			
+		
+			</a>
+			
+
+		</div>
+	</li>
+
+	<li *ngFor="let modulo of modulos"  class="col-lg-3 curso-item">
+				<div  class="curso-name" >	
+					<a href="#" [routerLink]="['/modulo', modulo._id]">
+					{{modulo.nombre}}
+
+				
+					</a>
+					
+
+				</div>
+			</li>
+</ul>
+</div>
+
+ -->

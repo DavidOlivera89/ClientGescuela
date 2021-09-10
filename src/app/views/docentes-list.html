@@ -1,0 +1,230 @@
+
+
+<div class="head-page" *ngIf="identity">
+	<h1>{{titulo}}</h1>
+
+	<a [routerLink]= "['/crear-docente']" *ngIf="identity.preceptor == true"  class="btn btn-default" >Añadir Docente</a>
+<hr>
+<div>
+<div class="clearfix"></div>
+
+<h3>Búsqueda de Docentes:</h3>
+<form #formAlumno= "ngForm" (ngSubmit)= "onSubmit()" class= "col-md-3" name="form-buscar-docente">		
+			Nombre:
+			<input type="text" #name="ngModel" name="name" [(ngModel)]="docenteBuscar.name" class="form-control"  />
+				
+			Apellido:
+			<input type="text" #name="ngModel" name="surname" [(ngModel)]="docenteBuscar.surname" class="form-control"  />
+			
+		<!-- 	Curso:
+			<select #curso="ngModel" name="curso" [(ngModel)]="docenteBuscar.curso" class="form-control" >
+			<option [value]="curso._id" *ngFor="let curso of cursos">{{curso.ano}} {{curso.division}} --- año {{curso.ano_gregoriano}}</option>
+			</select>
+			 -->
+			<br>
+	<input type="submit" value="Buscar" [disabled]="!formAlumno.form.valid " class="btn btn-succes" />
+</form> 
+
+</div>
+</div>
+<div class="clearfix"></div>
+
+
+
+<!------------------
+ 	<ul class="pagination pull-right">
+		<li><a [routerLink]="['/docentes', prev_page]">&laquo;</a></li>
+		<li><a [routerLink]="['/docentes', next_page]">&raquo;</a></li>
+		
+	</ul>
+-------------------->
+
+
+<!--
+<div class="clearfix"></div>
+<ul class="docentes-list" *ngIf="identity">
+	<li *ngFor="let docente of docentes"  class="col-lg-3 docente-item">
+		<div class="docente-name" >	
+			<a href="#" [routerLink]="['/docente', docente._id]">
+			{{docente.name}}
+			{{docente.surname}}
+			
+		 	</a>
+			<div class="buttons" *ngIf="identity.preceptor== true">
+				<a [routerLink]="['/editar-docente', docente._id]" class="btn btn-sm btn-warning">		Editar
+				</a>
+				<a (click)="onDeleteConfirm(docente._id)" class="btn btn-sm btn-danger">
+					Borrar
+				</a>
+
+
+			</div>
+
+			<div class="seguro" *ngIf="confirmado==docente._id">
+				<a (click)="onDeleteDocente(docente._id)" class="btn btn-sm btn-danger">
+					Eliminar
+				</a>
+				<a (click)="onCancelDocente()" class="btn btn-sm btn-primary">
+					Cancelar
+				</a>
+ 
+
+			</div>
+		</div>
+	</li>
+
+</ul> -->
+<div class="clearfix"></div>
+<ul class="pagination pull-right">
+		<li><a [routerLink]="['/docentes', prev_page]">&laquo;</a></li>
+		<li><a [routerLink]="['/docentes', next_page]">&raquo;</a></li>
+		
+	</ul>
+
+<div *ngIf= "seBusco && totalPreceptores<1 && totalProfesores<1 && totalTutores<1">
+	<br>
+	<ul class="notas-list"><p>No se encontraron coincidencias</p></ul>
+</div>
+
+<div *ngIf= "totalPreceptores>0">
+
+<h3>Preceptores:</h3>
+
+	<div class="clearfix"></div>
+<div class="pagina">| {{totalPreceptores}} preceptores, página {{pagina}} de {{cantPaginas}} |</div>
+
+<ul class="alumno-list" *ngIf="identity">
+	<li *ngFor="let preceptor of preceptores"  class="col-lg-3 alumno-item">
+		<div class="alumno-name" >	
+
+				<!-------------------->
+			<div class="alumno-image" [routerLink]="['/docente', preceptor._id]">
+          		<img id="image-logged" src="{{url + 'get-image-docente/' + preceptor.image}}"/>
+          	 </div>	
+			<!------------------------>
+			<a class= "black" href="#" [routerLink]="['/docente', preceptor._id]">
+			{{preceptor.surname}},
+			{{preceptor.name}}
+			
+			
+		 	</a>
+			<!-- <div class="buttons" *ngIf="identity.preceptor== true">
+				<a [routerLink]="['/editar-docente', preceptor._id]" class="btn btn-sm btn-warning">		Editar
+				</a>
+				<a (click)="onDeleteConfirm(preceptor._id)" class="btn btn-sm btn-danger">
+					Borrar
+				</a>
+
+
+			</div>
+
+			<div class="seguro" *ngIf="confirmado==preceptor._id">
+				<a (click)="onDeleteDocente(preceptor._id)" class="btn btn-sm btn-danger">
+					Eliminar
+				</a>
+				<a (click)="onCancelDocente()" class="btn btn-sm btn-primary">
+					Cancelar
+				</a>
+ 
+
+			</div> -->
+		</div>
+	</li>
+
+</ul>
+
+<div class="clearfix"></div>
+<div *ngIf= "totalPreceptores>0"></div>
+<h3>Profesores:</h3>
+	<div class="clearfix"></div>
+<div class="pagina">| {{totalProfesores}} profesores, página {{pagina}} de {{cantPaginas}} |</div>
+
+<ul class="alumno-list" *ngIf="identity">
+	<li *ngFor="let profesor of profesores"  class="col-lg-3 alumno-item">
+		<div class="alumno-name" >	
+
+				<!-------------------->
+			<div class="alumno-image" [routerLink]="['/docente', profesor._id]">
+          		<img id="image-logged" src="{{url + 'get-image-docente/' + profesor.image}}"/>
+          	 </div>	
+			<!------------------------>
+			<a class= "black" href="#" [routerLink]="['/docente', profesor._id]">
+			{{profesor.surname}},
+			{{profesor.name}}
+			
+		 	</a>
+			<!-- <div class="buttons" *ngIf="identity.preceptor== true">
+				<a [routerLink]="['/editar-docente', profesor._id]" class="btn btn-sm btn-warning">		Editar
+				</a>
+				<a (click)="onDeleteConfirm(profesor._id)" class="btn btn-sm btn-danger">
+					Borrar
+				</a>
+
+
+			</div>
+
+			<div class="seguro" *ngIf="confirmado==profesor._id">
+				<a (click)="onDeleteDocente(profesor._id)" class="btn btn-sm btn-danger">
+					Eliminar
+				</a>
+				<a (click)="onCancelDocente()" class="btn btn-sm btn-primary">
+					Cancelar
+				</a>
+ 
+
+			</div> -->
+		</div>
+	</li>
+
+</ul>
+</div>
+<div class="clearfix"></div>
+
+
+<div *ngIf= "totalTutores>0">
+<h3>Tutores:</h3>
+	<div class="clearfix"></div>
+<div class="pagina">| {{totalTutores}} tutores, página {{pagina}} de {{cantPaginas}} |</div>
+
+<ul class="alumno-list" *ngIf="identity">
+	<li *ngFor="let tutor of tutores"  class="col-lg-3 alumno-item">
+		<div class="alumno-name" >	
+			<!-------------------->
+			<div class="alumno-image" [routerLink]="['/docente', tutor._id]">
+          		<img id="image-logged" src="{{url + 'get-image-docente/' + tutor.image}}"/>
+          	 </div>	
+			<!------------------------>
+
+			<a class= "black" href="#" [routerLink]="['/docente', tutor._id]">
+			{{tutor.surname}}, 
+			{{tutor.name}}
+			
+		 	</a>
+			<!-- <div class="buttons" *ngIf="identity.preceptor== true">
+				<a [routerLink]="['/editar-docente', tutor._id]" class="btn btn-sm btn-warning">		Editar
+				</a>
+				<a (click)="onDeleteConfirm(tutor._id)" class="btn btn-sm btn-danger">
+					Borrar
+				</a>
+
+
+			</div>
+
+			<div class="seguro" *ngIf="confirmado==tutor._id">
+				<a (click)="onDeleteDocente(tutor._id)" class="btn btn-sm btn-danger">
+					Eliminar
+				</a>
+				<a (click)="onCancelDocente()" class="btn btn-sm btn-primary">
+					Cancelar
+				</a>
+ 
+
+			</div> -->
+		</div>
+	</li>
+
+</ul>
+</div>
+
+
+ 

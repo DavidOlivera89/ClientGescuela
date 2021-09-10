@@ -1,0 +1,189 @@
+<div *ngIf="docente" class="docente-box">
+	<a href="#" [routerLink]="['/docente', docente._id]" >
+	
+		<h1 class="curso-titulo">
+		{{docente.name}}
+		{{docente.surname}}
+	</h1></a>
+	<p>{{roles}}</p>
+	<p>{{docente.email}}</p>
+	
+	
+</div>
+<div *ngIf="identity.preceptor==true">
+<br>
+<a [routerLink]= "['/editar-docente', docente._id]" *ngIf="identity.preceptor == true && docente"  class="btn btn-default" >Editar Docente</a>
+
+
+<a *ngIf="identity.preceptor == true && docente && identity._id!=docente._id" (click)="onDeleteConfirm(docente._id)" class="btn btn-default">
+					Eliminar Docente
+				</a>
+
+
+		
+
+			<div class="seguro" *ngIf="identity.preceptor == true && docente && confirmado==docente._id">
+				<label>¿Estas seguro?</label>
+				<a (click)="onDeleteDocente(docente._id)" class="btn btn-sm btn-danger">
+					Eliminar
+				</a>
+				<a (click)="onCancelDocente()" class="btn btn-sm btn-primary">
+					Cancelar
+				</a>
+ 
+
+			</div>
+<br>
+<div class="clearfix"></div>
+</div>
+<hr>
+
+<div *ngIf='docente'>
+	<!-- 		********************************** -->
+		<div class="docente_image_for_edit" *ngIf="docente.image && docente.image != 'null'">
+				<img src="{{url + 'get-image-docente/' + docente.image }}" />
+		</div>
+<!-- 		********************************** -->
+	
+<div *ngIf='identity.alumno != true'>
+	<h3> Información Personal:</h3>
+	<ul>
+	<p>
+	Dni: {{docente.n_dni}}
+	<br>
+	Fecha de nacimiento: {{docente.fecha_nacimiento}}
+	<br>
+	Teléfono: {{docente.telefono}}
+	<br>
+	email: {{docente.email}}
+	</p>
+	
+		
+	</ul>
+	
+</div>
+<hr>
+</div>
+
+
+<div *ngIf="docentete && docentete.preceptor==true">
+
+<ul class="materieta-list" *ngIf="cursosPreceptor && identity && docente && docente.preceptor==true "> 
+<h3 >Es preceptor de los cursos:</h3>
+	<div>
+		<p *ngIf= !cursosPreceptor[0]>Aún no posee cursos asignados como preceptor.</p>
+	</div>
+	<li *ngFor="let curso of cursosPreceptor"  class="col-lg-6 materieta-item">
+					<div class="materieta-name" >	
+						<a class="materieta-name" *ngIf="identity.alumno==false" href="#" [routerLink]="['/curso', curso._id]">
+							{{curso.ano}} {{curso.division}} {{curso.ano_gregoriano}}
+							<!-- {{modulo.division}} -->
+							<!-- {{modulo.ano_gregoriano}} -->
+						</a>
+						<a class="black" *ngIf="identity.alumno==true"  >
+							{{curso.ano}} {{curso.division}} {{curso.ano_gregoriano}}
+							<!-- {{modulo.division}} -->
+							<!-- {{modulo.ano_gregoriano}} -->
+						</a>
+
+						
+					</div>
+				</li>
+
+</ul>
+
+
+
+
+<div class="clearfix"></div>
+<br>
+
+</div>
+
+
+<div *ngIf= "docentete && docentete.profesor==true">
+<ul class="materieta-list" *ngIf="materias && identity && docente && docente.profesor==true">
+ 	<h3 > Es profesor de las materias:</h3>
+	<div>
+		<ul>
+		<p *ngIf= !materias[0]>Aún no posee materias asignadas.</p>
+		</ul>
+	</div>
+
+	<div *ngIf= materias[0]>
+	<li *ngFor="let materia of materias"  class="col-lg-6 materieta-item">
+		<div class="materieta-name" >	
+			<a class="materieta-name" *ngIf= "materia" href="#" [routerLink]="['/materia', materia._id]">
+			{{materia.nombre}} - {{materia.ano_cursado}} AÑO
+			<!-- {{materia.division}} -->
+			<!-- {{materia.ano_gregoriano}} -->
+			</a>
+
+
+		</div>
+	</li>
+	</div>
+</ul>
+<div class="clearfix"></div>
+
+<br>
+
+</div>
+
+<div *ngIf="docentete && docentete.profesor==true">
+
+<ul class="materieta-list" *ngIf="modulos && identity && docente && docente.profesor==true"> 
+<h3 >Es profesor de los módulos:</h3>
+	<div>
+		<ul>
+		<p *ngIf= !modulos[0]>Aún no posee módulos asignados.</p>
+		</ul>
+	</div>
+	<div *ngIf= modulos[0]>
+	<li *ngFor="let modulo of modulos"  class="col-lg-6 materieta-item">
+		<div class="materieta-name" >	
+			<a class="materieta-name" href="#" [routerLink]="['/modulo', modulo._id]">
+				{{modulo.nombre}}</a>  de <a class="materieta-name" href="#" [routerLink]="['/materia', modulo.materia._id]">{{modulo.materia.nombre}} - {{modulo.ano_cursado}} AÑO</a>
+				<!-- {{modulo.division}} -->
+				<!-- {{modulo.ano_gregoriano}} -->
+			
+			
+		</div>
+	</li>
+	</div>
+</ul>
+<div class="clearfix"></div>
+
+<br>
+
+
+</div>
+
+
+
+<div align="center">
+<ul class="materieta-list" *ngIf="cursosTutor && docentete && docentete.tutor==true">
+ 	<h3> Es tutor de los cursos:</h3>
+	<li *ngFor="let curso of cursosTutor"  class="col-lg-6 materieta-item">
+		<div class="materieta-name" >	
+			<a class="materieta-name" *ngIf="!identity.alumno" href="#" [routerLink]="['/curso', curso._id]">
+							{{curso.ano}} {{curso.division}} {{curso.ano_gregoriano}}
+							<!-- {{modulo.division}} -->
+							<!-- {{modulo.ano_gregoriano}} -->
+						</a>
+						<a class="black" *ngIf="identity.alumno==true"  >
+							{{curso.ano}} {{curso.division}} {{curso.ano_gregoriano}}
+							<!-- {{modulo.division}} -->
+							<!-- {{modulo.ano_gregoriano}} -->
+						</a>
+
+
+		</div>
+	</li>
+</ul>
+<div class="clearfix"></div>
+</div>
+
+
+
+

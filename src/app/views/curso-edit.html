@@ -1,0 +1,132 @@
+<div class='col-lg-6' *ngIf="curso && identity && identity.preceptor == true || identity.tutor==true || identity.profesor==true" class="curso-box" >
+<a href="#" [routerLink]="['/curso', curso._id]" >
+	<h1 class="curso-titulo">
+		{{curso.ano}}
+		{{curso.division}}
+		{{curso.ano_gregoriano}}
+	</h1>
+</a>
+Preceptor/es:
+<a *ngIf="curso.preceptor1" href="#" [routerLink]="['/docente', curso.preceptor1._id]" >	
+	{{curso.preceptor1.surname}}, {{curso.preceptor1.name}}
+</a>
+--
+<a *ngIf= "curso.preceptor2" href="#" [routerLink]="['/docente', curso.preceptor2._id]" >	
+	{{curso.preceptor2.surname}}, {{curso.preceptor2.name}}
+</a>
+<br>
+Tutor:
+<a *ngIf= "curso.tutor" href="#" [routerLink]="['/docente', curso.tutor._id]" >	
+	{{curso.tutor.surname}}, {{curso.tutor.name}}
+</a>
+<br>
+<br>
+<br>
+<a [routerLink]= "['/curso', curso._id]" *ngIf="identity && identity.alumno != true"  class="btn btn-default" >Cancelar</a>
+
+<hr>
+
+<form #formCurso="ngForm" (ngSubmit)="onSubmit()" class="col-lg-6"> 
+	<p>
+		<label>Año</label>
+		<!-- <input type="text" #ano="ngModel" name="ano" [(ngModel)]="curso.ano" required class="form-control" />
+		 -->
+
+		<select #ano="ngModel" name="ano" [(ngModel)]="curso.ano"  required disabled="true" class="form-control" >
+			<option value="1°">1°</option>
+			<option value="2°">2°</option>
+			<option value="3°">3°</option>
+			<option value="4°">4°</option>
+			<option value="5°">5°</option>
+			<option value="6°">6°</option>
+			<option value="7°">7°</option>
+			<option value="8°">8°</option>
+			<option value="9°">9°</option>
+			
+		</select>
+		
+
+		<span *ngIf="!ano.valid && ano.touched">
+			Es obligatorio ingresar el año que denomina al curso. 
+		</span>
+	</p>
+
+	<p>
+		<label>División</label>
+		<!-- <input type="text" #division="ngModel" name="division" [(ngModel)]="curso.division" required class="form-control" /> -->
+		<select #division="ngModel" division="ano" name="division" [(ngModel)]="curso.division"  required class="form-control" disabled="true" >
+			<option value="A">A</option>
+			<option value="B">B</option>
+			<option value="C">C</option>
+			<option value="D">D</option>
+			<option value="E">E</option>
+			<option value="F">F</option>
+			<option value="G">G</option>
+			<option value="H">H</option>
+			<option value="I">I</option>
+			
+		</select>
+		
+
+		<span *ngIf="!division.valid && division.touched">
+			Es obligatorio ingresar la división del curso.
+			
+
+		</span>	
+	</p>
+
+	<p>
+		<label>Año Gregoriano</label>
+		<input type="text" min="2020" max="3000" value="2020"  #ano_gregoriano="ngModel" name="ano_gregoriano" [(ngModel)]="curso.ano_gregoriano" required class="form-control" disabled="true"/>
+		<span *ngIf="!ano_gregoriano.valid && ano_gregoriano.touched">
+			Es obligatorio ingresar el año, según el calendario, en el que existirá y será activo este curso.
+			
+
+		</span>
+	</p>
+
+		<p>
+			<label>Preceptor 1:</label>
+			<select #preceptor1="ngModel" name="preceptor1" [(ngModel)]="preceptor1Valor" class="form-control" required value={{curso.preceptor1._id}} (change)= onPreceptor1Change(preceptor1.value)>
+			<option [value]="docente._id" *ngFor="let docente of preceptores">{{docente.name}} {{docente.surname}} </option>
+			</select>
+			<span *ngIf="!preceptor1.valid && preceptor1.touched" class="validacion">
+					Es obligatorio seleccionar un preceptor.
+			</span>
+		</p>
+
+		<p>
+			<label>Preceptor 2:</label>
+			<select #preceptor2="ngModel" name="preceptor2" [(ngModel)]="preceptor2Valor" class="form-control" (change)= onPreceptor2Change(preceptor2.value) >
+			<option [value]=""></option>
+			<option [value]="docente._id" *ngFor="let docente of preceptores">{{docente.name}} {{docente.surname}}</option>
+			</select>
+			<span *ngIf="preceptor2Invalid || !preceptor2.valid && peceptor2.touched" class="validacion">
+					Si se elijen 2 preceptores éstos deben ser distintos.
+			</span>
+		</p>
+
+		<p>
+			<label>Tutor:</label>
+			<select #tutor="ngModel" name="tutor" [(ngModel)]="tutorValor" class="form-control" (change)= onTutorChange(tutor.value) required value={{curso.tutor._id}} >
+			<option [value]="docente._id" *ngFor="let docente of tutores">{{docente.name}} {{docente.surname}}</option>
+			</select>
+			<span *ngIf="!tutor.valid && tutor.touched" class="validacion">
+					Es obligatorio seleccionar un tutor.
+			</span>
+		</p>
+
+
+	<!-- <div *ngIf= "is_edit">
+		<label>SI QUIERO ACA PODRIA EDITAR</label>>
+
+	</div> -->
+
+	<input type="submit" value="{{titulo}}" [disabled]="preceptor2Invalid || !formCurso.form.valid || ano=='' || division=='' || ano_gregoriano== '' " class="btn btn-succes"/>
+
+</form>
+</div>
+<div class='col-lg-6' *ngIf="!identity || identity.preceptor != true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>

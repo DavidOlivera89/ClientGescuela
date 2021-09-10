@@ -1,0 +1,115 @@
+<div *ngIf="identity && identity.alumno!=true" class="curso-box" >
+<a href="#" [routerLink]="['/materia', materia._id]" >
+	<h1 class="curso-titulo">
+	{{materia.nombre}}  /  {{materia.ano_cursado}} año / {{materia.ano_gregoriano}}
+</h1>
+</a>
+<a href="#" [routerLink]="['/curso', curso._id]" >
+	<h1 class="curso-titulo">
+	<h1>{{curso.ano}} {{curso.division}}</h1>
+</h1>
+</a>		
+	
+<h2>{{titulo}}</h2>
+<a [routerLink]= "['/notas-por-curso', curso._id, materia._id]"  class="btn btn-default" >Cancelar</a>
+<hr>
+	<div *ngIf = "alertMessage">	
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+	</div>
+
+<form #formAddNota="ngForm" (ngSubmit)="onSubmit()" class="col-lg-4"> 
+	
+	<p>
+		<label>Fecha: </label>
+		<input type='Date' #fecha="ngModel" name="fecha" [ngModel]='notaMateria.fecha | date:"yyyy-MM-dd" '  (ngModelChange)='notaMateria.fecha=$event' max="this.ano-this.mes-this.dia" required class="form-control" (change)="onFecha_NotaChanged(fecha.value)">
+		<span *ngIf="fechaInvalida || !fecha.valid && fecha.touched" class="validacion" >
+			Debe ingresar una fecha válida, deberá ser del corriente año y menor o igual a la fecha actual.
+		</span>	
+	</p>
+
+	
+	<p>
+		<label>Alumno:</label>
+		<select #alumno="ngModel" name="alumno" [(ngModel)]="notaMateria.alumno" class="form-control" required>
+		<option [value]="alumno.alumno._id" *ngFor="let alumno of alumnos"> {{alumno.alumno.surname}}, {{alumno.alumno.name}} </option>
+		</select>
+		<span *ngIf="!alumno.valid && alumno.touched" class="validacion">
+				Es obligatorio seleccionar al alumno que desea calificar.
+			</span>
+	</p>
+
+ 
+	<p>
+		<label>Identificador de la instancia de la Nota*:</label>
+		<select #identificador="ngModel" name="identificador" [(ngModel)]="notaMateria.identificador"  required class="form-control" >
+			<option value="1° CUATRIMESTRE">1° CUATRIMESTRE</option>
+			<option value="2° CUATRIMESTRE">2° CUATRIMESTRE</option>
+			<option value="1° TRIMESTRE">1° TRIMESTRE</option>
+			<option value="2° TRIMESTRE">2° TRIMESTRE</option>
+			<option value="3° TRIMESTRE">3° TRIMESTRE</option>
+			<option value="1° BIMESTRE">1° BIMESTRE</option>
+			<option value="2° BIMESTRE">2° BIMESTRE</option>
+			<option value="3° BIMESTRE">3° BIMESTRE</option>
+			<option value="4° BIMESTRE">4° BIMESTRE</option>
+			<option value="CALIFICACION FINAL">CALIFICACION FINAL</option>
+		</select>
+		<span *ngIf="!identificador.valid && identificador.touched" class="validacion">
+				Es obligatorio seleccionar el identificador de la instancia a la que corresponde la nota.
+			</span>
+	</p>
+
+
+	<p>
+		<label>Calificación:</label>
+		<select #valor="ngModel" name="valor" [(ngModel)]="notaMateria.valor"  required class="form-control" >
+			<option value="10">10</option>
+			<option value="9">9</option>
+			<option value="8">8</option>
+			<option value="7">7</option>
+			<option value="6">6</option>
+			<option value="5">5</option>
+			<option value="4">4</option>
+			<option value="3">3</option>
+			<option value="2">2</option>
+			<option value="1">1</option>
+		</select>
+		<span *ngIf="!valor.valid && valor.touched" class="validacion">
+			Es obligatorio ingresar el valor de la calificación.
+		</span>
+	</p>
+
+	<!-- <p>
+			<label>Calificaion:</label>
+			<input type="number" min = "1" max=10 step="0.50" name="valor" #valor="ngModel" [(ngModel)]="notaMateria.valor" class="form-control" required />
+			<span *ngIf="!valor.valid && valor.touched">
+				Es obligatorio ingresar el valor de la calificación.
+			</span>
+		</p> -->
+
+
+
+	<p>
+		<label>Descripción:</label>
+		<textarea type="text" #descripcion="ngModel" name="descripcion" [(ngModel)]="notaMateria.descripcion"  class="form-control" rows="3"></textarea>
+		<span *ngIf="!descripcion.valid || descripcion.touched">
+			 Puede ingresar una descripcion de la evaluación del alumno.
+		</span>	
+	</p>
+
+
+	<!-- <div *ngIf= "is_edit">
+		<label>SI QUIERO ACA PODRIA EDITAR</label>>
+
+	</div> -->
+	
+	<input type="submit" value="{{titulo}}" [disabled]="!formAddNota.form.valid || fechaInvalida"   class="btn btn-succes"/>
+
+</form>
+</div>
+<div class='col-lg-6' *ngIf="!identity || identity.alumno == true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>

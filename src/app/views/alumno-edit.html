@@ -1,0 +1,178 @@
+<div *ngIf="identity && identity.preceptor==true" >
+<a href="#" [routerLink]="['/alumno', alumno._id]" >
+	<h1 class="alumno-titulo">
+		{{alumno.name}}
+		{{alumno.surname}}
+	</h1>
+</a>	
+	<p>Alumno - <a href="#" [routerLink]="['/curso', alumno.ultimoCurso._id]" >{{alumno.ultimoCurso.ano}} {{alumno.ultimoCurso.division}} {{alumno.ultimoCurso.ano_gregoriano}}</a></p>
+	<p>{{alumno.email}}</p>
+</div>
+<br>
+	<a [routerLink]= "['/alumno', alumno._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Cancelar</a>
+
+<hr>
+<div>	
+<div class="col-lg-6" >
+	<h1>
+		{{titulo}}:
+		<!--FORMULARIO-->
+	</h1>
+
+	<div *ngIf = "alertMessage">
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+			
+	</div>
+
+	<form #formAlumno= "ngForm" (ngSubmit)= "onSubmit()" class= "col-md-10" name="form-add-alumno">
+		<p>
+			<label>Nombres:</label>
+			<input type="text" #name="ngModel" name="name" [(ngModel)]="alumno.name" class="form-control" required />
+			<span *ngIf="!name.valid && name.touched" class="validacion">
+				Es obligatorio ingresar un nombre. 
+			</span>
+		</p>
+		
+		<p>
+			<label>Apellidos:</label>
+			<input type="text" name="surname" #surname="ngModel" [(ngModel)]="alumno.surname" class="form-control" required />
+			<span *ngIf="!surname.valid && surname.touched" class="validacion">  
+				Es obligatorio ingresar un apellido.
+			</span>
+
+		</p>		
+
+		<p>
+			<label>Dni n°:</label>
+			<input type="number" min = "10000000" max=99999999 name="n_dni" #n_dni="ngModel" [(ngModel)]="alumno.n_dni"  class="form-control" required disabled />
+			<span *ngIf="!n_dni.valid && n_dni.touched">
+				Es obligatorio ingresar un DNI.
+			</span>
+		</p>
+
+		<p>
+		<label>Fecha de nacimiento: </label>
+		<input type='Date' #fecha="ngModel" name="fecha" [ngModel]='alumno.fecha_nacimiento | date:"yyyy-MM-dd" '  (ngModelChange)='alumno.fecha_nacimiento=$event' max="this.ano-this.mes-this.dia" required class="form-control" (change)="onFecha_NacimientoChanged(fecha.value)">
+		<span *ngIf="fechaInvalida || !fecha.valid && fecha.touched" class="validacion">
+			Es obligatorio ingresar una fecha de nacimiento del alumno.
+		</span>	
+		</p>
+
+		<p>
+		<label>N° telefónico del Padre o Tutor: </label>
+		<input type="text" name="telefono" #telefono="ngModel" [(ngModel)]="alumno.telefono" class="form-control" pattern="[0-9]{10}" size="15" placeholder="2975945540" required />
+			<span *ngIf="!telefono.valid && telefono.touched" class="validacion">
+				Debe ingresar un nro de telefono válido.
+			</span>	
+		</p>
+
+		<p>
+
+		<p>
+			<label>Correo electronico:</label>
+			<input type='Email' name="email" #email="ngModel" [(ngModel)]="alumno.email" class="form-control" required disabled/>
+			<span *ngIf="!email.valid && email.touched">
+				Debe ingresar un email válido.
+			</span>
+
+		</p>
+
+		<p>
+			<label>Curso:</label>
+		<select #curso="ngModel" name="curso" [(ngModel)]="cursoAlumno._id" class="form-control" required>
+		<option [value]="curso._id" *ngFor="let curso of cursos">{{curso.ano}} {{curso.division}} --- año {{curso.ano_gregoriano}}</option>
+		</select>
+		<span *ngIf="!curso.valid && curso.touched">
+				Es obligatorio seleccionar un curso.
+			</span>
+		</p>
+
+
+		<!-- <p>
+			<label>Contraseña:</label>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="alumno.password" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched" class="validacion">
+				Es obligatorio ingresar una contraseña.
+			</span>
+		
+		</p> -->
+
+		<!--------------------------------------------REESTABLECER CONTRASEÑA------------------------------>
+	
+			<br>
+			
+			 
+			<a (click)="setCambiarClave()" class="btn btn-sm btn-warning">		Reestablecer contraseña
+		</a>
+		
+		
+ 		<div *ngIf= cambiarClave>
+ 		
+ 		<br>
+ 		<p>
+			<label>Ingrese la nueva clave que desea generar:</label>
+			<br>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="nuevaclave" class="form-control" required (change)="onPassChanged(password.value)"/>
+			<span *ngIf="!clavesValidas || !password.valid && password.touched" class="validacion">
+				Debe ingresar la nueva contraseña. 
+			</span>
+		
+		</p>
+
+		<p>
+			<label>Reingrese la clave:</label>
+			<br>
+			<input type="password" name="password1" #password1="ngModel" [(ngModel)]="reingresaclave" class="form-control" required (change)="onPassChanged(password1.value)"/>
+			<span *ngIf="!clavesValidas || !password1.valid && password1.touched" class="validacion">
+				Debe reingresar la nueva contraseña. Las contraseñas deben ser iguales.
+			</span>
+		
+		</p>
+			
+		 	<a (click)="Cancelar()" class="btn btn-sm btn-danger">		Cancelar
+		</a>	
+	 	</div>
+	 	<br>
+	 	<br>
+	 	<!--------------------------------------------REESTABLECER CONTRASEÑA------------------------------>
+	
+
+
+		<!-- <p>
+			<label>Confirmar Contraseña:</label>
+			<input type="password" name="confirma_password" #confirma_password="ngModel" [(ngModel)]="linea" class="form-control" required />
+			<span *ngIf="confirma_password!=password && confirma_password.touched">
+				Debe ingresar la misma contraseña.
+			</span>
+		</p> -->
+
+		
+		
+		<!-- 		********************************** -->
+		<div class="alumno_image_for_edit" *ngIf="alumno.image && alumno.image != 'null'">
+				<img src="{{url + 'get-image-alumno/' + alumno.image }}" />
+		</div>
+<!-- 		********************************** -->
+		
+
+		<p>
+			<label>Sube una foto</label>
+			<input type="file" placeholder="Subir imagen..." (change)="fileChangeEvent($event)"/>
+		</p>
+
+
+
+		<input type="submit" value="{{titulo}}" [disabled]=" !formAlumno.form.valid || dniInvalido || fechaInvalida || !clavesValidas && cambiarClave " class="btn btn-succes-actualizar" />
+		<br>
+	</form>
+</div>
+</div>
+
+<div class='col-lg-6' *ngIf="!identity || identity.preceptor != true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>
+

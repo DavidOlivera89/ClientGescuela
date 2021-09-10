@@ -1,0 +1,173 @@
+<div *ngIf="identity && identity.preceptor==true" >
+<a href="#" [routerLink]="['/docente', docente._id]" >
+	<h1 class="alumno-titulo">
+		{{docente.name}}
+		{{docente.surname}}
+	</h1></a>	
+	<p>{{roles}}</p>
+	<p>{{docente.email}}</p>
+
+
+</div>
+<br>
+	<a [routerLink]= "['/docente', docente._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Cancelar</a>
+
+<hr>
+<div class="col-lg-6" *ngIf="identity && identity.preceptor==true" >
+	<h1>
+		{{titulo}}
+		<!--FORMULARIO-->
+	</h1>
+
+	<div *ngIf = "alertMessage">
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+			
+	</div>
+
+	<form #formDocente= "ngForm" (ngSubmit)= "onSubmit()" class= "col-md-10" name="form-add-docente">
+		<p>
+			<label>Nombres:</label>
+			<input type="text" #name="ngModel" name="name" [(ngModel)]="docente.name" class="form-control" required />
+			<span *ngIf="!name.valid && name.touched"  class="validacion">
+				Es obligatorio ingresar un nombre. 
+			</span>
+		</p>
+		
+		<p>
+			<label>Apellidos:</label>
+			<input type="text" name="surname" #surname="ngModel" [(ngModel)]="docente.surname" class="form-control" required />
+			<span *ngIf="!surname.valid && surname.touched"  class="validacion">
+				Es obligatorio ingresar un apellido.
+			</span>
+
+		</p>		
+
+		<p>
+			<label>Dni n°:</label>
+			<input type="number" min = "10000000" max=99999999 name="n_dni" #n_dni="ngModel" [(ngModel)]="docente.n_dni" class="form-control" pattern="[0-9]{8}"  (change)="onDniChanged(n_dni.value)" required disabled/>
+			<span *ngIf="!n_dni.valid && n_dni.touched">
+				Es obligatorio ingresar un DNI.
+			</span>
+		</p>
+
+		<p>
+		<label>Fecha de nacimiento: </label>
+		<input type='Date' #fecha="ngModel" name="fecha" [ngModel]='docente.fecha_nacimiento | date:"yyyy-MM-dd" '  (ngModelChange)='docente.fecha_nacimiento=$event' max="this.ano-this.mes-this.dia" required class="form-control" (change)="onFecha_NacimientoChanged(fecha.value)">
+		<span *ngIf="fechaInvalida || !fecha.valid && fecha.touched" class="validacion">
+			Debe ingresar una fecha válida.
+		</span>	
+		</p>
+
+
+		<p>
+		<label>N° telefónico: </label>
+		<input type="text" name="telefono" #telefono="ngModel" [(ngModel)]="docente.telefono" class="form-control" pattern="[0-9]{10}" size="15" placeholder="2975945540" required />
+			<span *ngIf="!telefono.valid && telefono.touched"  class="validacion">
+				Debe ingresar un nro de telefono válido.
+			</span>	
+		</p>
+
+		<p>
+
+		<p>
+			<label>Correo electronico:</label>
+			<input type='Email' name="email" #email="ngModel" [(ngModel)]="docente.email" class="form-control" pattern="^[^@]+@[^@]+\.[a-zA-Z]{2,}$" required disabled/>
+			<span *ngIf="!email.valid && email.touched" class="validacion">
+				Es obligatorio ingresar un email.
+			</span>
+
+		</p>
+
+
+		<p>
+			<label>Contraseña:</label>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="docente.password" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched" class="validacion">
+				Es obligatorio ingresar una contraseña.
+			</span>
+		
+		</p>
+
+		<p>
+			<label>Funciones que cumple:</label>
+			<br>
+			<input #esTutorCheckBox id="esTutorCheckBox" ng-model="docente.tutor" type="checkbox"  [checked]="docente.tutor" (change)="onEsTutorChanged(esTutorCheckBox.checked)"  /> Tutor
+			<br>
+			<input #esProfesorCheckBox id="esProfesorCheckBox" ng-model="docente.profesor" type="checkbox"  [checked]="docente.profesor" (change)="onEsProfesorChanged(esProfesorCheckBox.checked)" /> Profesor
+			<br>
+			<input #esPreceptorCheckBox id="esPreceptorCheckBox" ng-model="docente.preceptor" type="checkbox"  [checked]="docente.preceptor" (change)="onEsPreceptorChanged(esPreceptorCheckBox.checked)" /> Preceptor
+			<br>
+			<span *ngIf="!checkedValido" class="validacion">
+				Debe seleccionar al menos una función.
+			</span>
+			
+
+		</p>
+		<!--------------------------------------------REESTABLECER CONTRASEÑA------------------------------>
+		<br>
+			
+			 
+			<a (click)="setCambiarClave()" class="btn btn-sm btn-warning">		Reestablecer contraseña
+		</a>
+		
+		
+ 		<div *ngIf= cambiarClave>
+ 		
+ 		<br>
+ 		<p>
+			<label>Ingrese la nueva clave que desea generar:</label>
+			<br>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="nuevaclave" class="form-control" required (change)="onPassChanged(password.value)"/>
+			<span *ngIf="!clavesValidas || !password.valid && password.touched" class="validacion">
+				Debe ingresar la nueva contraseña. 
+			</span>
+		
+		</p>
+
+		<p>
+			<label>Reingrese la clave:</label>
+			<br>
+			<input type="password" name="password1" #password1="ngModel" [(ngModel)]="reingresaclave" class="form-control" required (change)="onPassChanged(password1.value)"/>
+			<span *ngIf="!clavesValidas || !password1.valid && password1.touched" class="validacion">
+				Debe reingresar la nueva contraseña. Las contraseñas deben ser iguales.
+			</span>
+		
+		</p>
+			
+		 	<a (click)="Cancelar()" class="btn btn-sm btn-danger">		Cancelar
+		</a>	
+	 	</div>
+	 	<br>
+	 	<br>
+		<!--------------------------------------------REESTABLECER CONTRASEÑA------------------------------>
+	
+
+
+
+		<!-- 		********************************** -->
+		<div class="docente_image_for_edit" *ngIf="docente.image && docente.image != 'null'">
+				<img src="{{url + 'get-image-docente/' + docente.image }}" />
+		</div>
+<!-- 		********************************** -->
+		
+
+
+		<p>
+			<label>Sube una foto</label>
+			<input type="file" placeholder="Subir imagen..." (change)="fileChangeEvent($event)"/>
+		</p>
+
+
+
+		<input type="submit" value="{{titulo}}" [disabled]="!checkedValido || dniInvalido || fechaInvalida || !formDocente.form.valid  || !fecha.valid || !clavesValidas && cambiarClave " class="btn btn-succes" />
+	</form>
+</div>
+
+<div class='col-lg-6' *ngIf="!identity || identity.preceptor != true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>
+

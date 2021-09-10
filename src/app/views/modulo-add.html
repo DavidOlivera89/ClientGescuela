@@ -1,0 +1,91 @@
+<div class='col-lg-6' *ngIf="identity && identity.preceptor == true">
+	
+<a *ngIf= "materia.nombre" href="#" [routerLink]="['/materia', materia._id]" >
+	<h1 class="curso-titulo">
+	{{materia.nombre}}  /  {{materia.ano_cursado}} año / {{materia.ano_gregoriano}}
+	
+	</h1>			
+</a>
+
+<h2>{{titulo}}</h2>
+<a [routerLink]= "['/materia', materia._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Cancelar</a>
+<hr>
+	<div *ngIf = "alertMessage"d>	
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+	</div>
+
+<form #formModulo="ngForm" (ngSubmit)="onSubmit()" class="col-lg-8"> 
+	<p>
+		<label>Nombre:</label>
+		<input type="text" #nombre="ngModel" name="nombre" [(ngModel)]="modulo.nombre" required class="form-control" />
+		<span *ngIf="!nombre.valid && nombre.touched" class="validacion">
+			Es obligatorio ingresar el nombre del modulo.
+		</span>	
+	</p>
+
+	<p>
+			<label>Profesor 1:</label>
+		<select #profesor1="ngModel" name="profesor1" [(ngModel)]="modulo.profesor1" class="form-control" required (change)= onProfesor1Change(profesor1.value)>
+		<option [value]="docente._id" *ngFor="let docente of profesores">{{docente.name}} {{docente.surname}} </option>
+		</select>
+		<span *ngIf="!profesor1.valid && profesor1.touched" class="validacion">
+				Es obligatorio seleccionar un profesor.
+			</span>
+		</p>
+
+		<p>
+			<label>Profesor 2:</label>
+		<select #profesor2="ngModel" name="profesor2" [(ngModel)]="modulo.profesor2" class="form-control" (change)= onProfesor2Change(profesor2.value)>
+		<option [value]=""></option>
+		<option [value]="docente._id" *ngFor="let docente of profesores">{{docente.name}} {{docente.surname}}</option>
+		</select> 
+		<span *ngIf="profesor2Invalid || !profesor2.valid && profesor2.touched" class="validacion">
+				Si se elijen2 profesores estos deben ser distintos.
+			</span>
+		</p>
+
+
+	<p>
+		<label>Horarios:</label>
+		<textarea type="text" #horarios="ngModel" name="horarios" [(ngModel)]="modulo.horarios" class="form-control" rows="3"></textarea>
+		<span >
+			 Se recomienda ingresar los horarios del modulo siguiendo el ejemplo: "Lunes de 14:00 a 16:00, y Viernes de 13:00 a 15:00hs"
+		</span>	
+	</p>
+
+	<p>
+		<label>Planificacion:</label>
+		<textarea type="text2" #planificacion="ngModel" name="planificacion" [(ngModel)]="modulo.planificacion" class="form-control" rows="3"></textarea>
+		<span >
+			Se puede ingresar un resumen de la planificacion del modulo.
+			
+
+		</span>
+	</p>
+
+		<p>
+		<label>Bibliografia:</label>
+		<textarea type="text3" #bibliografia="ngModel" name="bibliografia" [(ngModel)]="modulo.bibliografia" class="form-control" rows="3"></textarea>
+		<span>
+			Se puede ingresar la bibliografia del modulo.
+			
+
+		</span>
+	</p>
+
+	<!-- <div *ngIf= "is_edit">
+		<label>SI QUIERO ACA PODRIA EDITAR</label>>
+
+	</div> -->
+
+	<input type="submit" value="{{titulo}}" [disabled]="!formModulo.form.valid || nombre=='' " class="btn btn-succes"/>
+
+</form>
+</div>
+<div class='col-lg-6' *ngIf="!identity || identity.preceptor != true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>

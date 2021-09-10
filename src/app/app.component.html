@@ -1,0 +1,137 @@
+    <div *ngIf = "identity"  class="navigation col-lg-2">
+      <h1 class="head-title">
+
+       <a [routerLink]="['/']">
+        <!-- <span class= "glyphicon glyphicon-search" aria-hidden='true'></span>-->
+        <!--{{title}}-->
+        <h1 class="head-nombre-escuela"> 
+          GeESCUELA
+        </h1> 
+             <!--  <div class="head_image_escuela">
+                  <img src="{{url + 'get-image-escuela/'}}" />
+                </div> -->
+              </a>
+              <!-- <p>APP_ESCUELA</p> -->
+            </h1> 
+            
+            <nav id="user_logged" >
+
+              <div *ngIf="identity.alumno==true" class="user-image" [routerLink]= "['/alumno', identity._id]" >
+                <img id="image-logged" src="{{url + 'get-image-alumno/' + identity.image}}"/>
+                
+              </div>
+
+              <div *ngIf="identity.alumno!=true" class="user-image" [routerLink]= "['/docente', identity._id]" >
+                <img id="image-logged" src="{{url + 'get-image-docente/' + identity.image}}"/>
+                
+              </div>
+
+              <a *ngIf="identity.alumno==true" href="" id="identity_name" class="btn-Mi-perfil" [routerLink]= "['/alumno', identity._id]">
+                {{identity.name}}  {{identity.surname}}
+                
+              </a>
+              <a *ngIf="!identity.alumno" href="" id="identity_name" class="btn-Mi-perfil" [routerLink]= "['/docente', identity._id]">
+                {{identity.name}}  {{identity.surname}}
+                
+              </a>
+              <a (click)= "logout()" class="btn-logout">
+                <span class="glyphicon glyphicon-log-out" aria-hidden= "true"> </span>
+                Cerrar sesión
+              </a>
+              <a [routerLink]= "['/mis-datos']"  class="btn-Mi-perfil">
+                <span class="glyphicon glyphicon-user" aria-hidden= "true"> </span>
+                Mis datos de cuenta
+              </a>
+              <a [routerLink]= "['/docentes',1]" href="#" class="btn-Mi-perfil">
+               <span  class="glyphicon glyphicon-search" aria-hidden= "true" ></span>
+               Docentes
+             </a>
+             <a     [routerLink]= "['/materias',1]" href="#" class="btn-Mi-perfil">
+               <span  class="glyphicon glyphicon-search" aria-hidden= "true" ></span>
+               Materias y Módulos
+             </a>
+             <a *ngIf = "!identity.alumno" [routerLink]= "['/alumnos',1]" href="#"class="btn-Mi-perfil">
+               <span  class="glyphicon glyphicon-search" aria-hidden= "true" ></span>
+               Alumnos
+             </a>
+             <a *ngIf = "!identity.alumno" [routerLink]= "['/cursos',1]" href="#" class="btn-Mi-perfil"><span  class="glyphicon glyphicon-search" aria-hidden= "true" ></span>
+               Cursos
+               
+             </a>
+             <a *ngIf = "!identity" href="#">
+               <span  class="glyphicon glyphicon-cog" aria-hidden= "true" ></span><br>
+               Gestionar Altas, Bajas y Modificaciones
+             </a>
+
+             
+           </nav>
+
+         </div>
+
+
+
+         <div *ngIf= "identity" class="central col-lg-10">
+          
+          <router-outlet></router-outlet>
+        </div>
+
+        
+
+        <div class="col-lg-8 col-lg-offset-1">
+
+
+          
+          <div class="col-lg-10" *ngIf="!identity">
+            
+            <div class="Inicial">
+              <div class="col-lg-12 col-lg-offset-1">
+                <br>
+                <br>
+                <div class="saludo-home" >
+                  <h1 class= "Titulo">Bienvenido, a GeESCUELA.</h1>
+                  <p>Ésta es una aplicación destinada a la gestión de escuelas.</p>
+                  
+                </div>
+
+              </div>
+              
+            </div>
+            <img class="escuela_image_portada" src="{{url + 'get-image-escuela/'}}" align="right" />
+            <div class="col-lg-6">
+              <h1 class="Identificate">Identificate</h1>
+              <div *ngIf="errorMessage" >
+                <div class="alert alert-danger">
+                  <strong>Error!</strong> {{errorMessage}}
+                </div>
+              </div>  
+
+              <div class="col-md-12">
+                <div class="loguear">
+                 <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-12">
+
+                  <p>
+                    <label class="Correo">Correo electronico:</label>
+                    <input id="email" type="email" #email="ngModel" name="email" [(ngModel)]="usuario.email" class="form-control" required />
+                    <span *ngIf="!email.valid && email.touched">El mail es obligatorio</span>
+                  </p>
+                  
+                  <p>
+                    <label>Contraseña:</label>
+                    <input type="password" #password="ngModel" name="password" [(ngModel)]="usuario.password" class="form-control" required/>
+                    
+                    
+                    
+
+                  </p>
+                  <!-- <span *ngIf= errorMessage>{{errorMessage}}</span> -->
+
+                  <input type="submit" value="Iniciar Sesión" class="btn btn-primary">
+                  
+                </form>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>

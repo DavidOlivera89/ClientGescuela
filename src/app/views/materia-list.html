@@ -1,0 +1,146 @@
+<div class='' *ngIf="identity">
+
+
+<div class="head-page" *ngIf="identity">
+	<h1>{{titulo}}</h1>
+
+	<a [routerLink]= "['/crear-materia']" *ngIf="identity.preceptor"  class="btn btn-default" >Añadir Materia</a>
+
+
+	
+
+</div>
+
+<hr>
+<div>
+<div class="clearfix"></div>
+
+<h3>Búsqueda:</h3>
+<form #formMateria= "ngForm" (ngSubmit)= "onSubmit()" class= "col-md-3" name="form-buscar-materia">
+		
+			Nombre:
+			<input type="text" #name="ngModel" name="nombre" [(ngModel)]="estaMateria.nombre" class="form-control"  />
+			
+			Año de cursado:	
+			<select #ano_cursado="ngModel" name="ano_cursado" [(ngModel)]="estaMateria.ano_cursado"  class="form-control" placeholder=" °">
+			<option value=""></option>
+			<option value="1°">1°</option>
+			<option value="2°">2°</option>
+			<option value="3°">3°</option>
+			<option value="4°">4°</option>
+			<option value="5°">5°</option>
+			<option value="6°">6°</option>
+			<option value="7°">7°</option>
+			<option value="8°">8°</option>
+			<option value="9°">9°</option>
+			
+			</select>
+		
+			<br>
+			
+	<input type="submit" value="Buscar" [disabled]="!formMateria.form.valid " class="btn btn-succes" />
+</form>
+
+</div>
+
+
+<div class="clearfix"></div>
+<ul class="pagination pull-right">
+		<li><a [routerLink]="['/materias', prev_page]">&laquo;</a></li>
+		<li><a [routerLink]="['/materias', next_page]">&raquo;</a></li>
+		
+	</ul>
+
+<div>
+	
+<h3> Materias:</h3>
+<div class="clearfix"></div>
+<div class="pagina">| {{totalMaterias}} materias, página {{pagina}} de {{cantPaginas}} |</div>
+
+<ul class="materiass-list" text-align= "center" *ngIf="identity"> 
+
+	<li *ngFor="let materia of materias"  class="col-lg-4 materiass-item">
+		<div class="materiass-name" >	
+			<a class="black" href="#" [routerLink]="['/materia', materia._id]">
+			<b>{{materia.nombre}}</b> - {{materia.ano_cursado}} AÑO
+			</a>
+			<br>
+			Prof/res:
+			<a class= "black" href="#" [routerLink]="['/docente', materia.profesor1._id]">{{materia.profesor1.surname}}, {{materia.profesor1.name}}</a>
+			<br> 
+			<a *ngIf="materia.profesor2" class= "black" href="#" [routerLink]="['/docente', materia.profesor2._id]">		{{materia.profesor2.surname}}, {{materia.profesor2.name}}</a>
+		
+
+		<!-- 	<div class="buttons" *ngIf="identity.preceptor== true">
+				<a [routerLink]="['/editar-materia', materia._id]" class="btn btn-sm btn-warning">		Editar
+				</a>
+				<a (click)="onDeleteConfirm(materia._id)" class="btn btn-sm btn-danger">
+					Borrar
+				</a>
+
+
+			</div>
+
+			<div class="seguro" *ngIf="confirmado==materia._id">
+				<a (click)="onDeleteMateria(materia._id)" class="btn btn-sm btn-danger">
+					Eliminar
+				</a>
+				<a (click)="onCancelMateria()" class="btn btn-sm btn-primary">
+					Cancelar
+				</a>
+				
+
+			</div>  -->
+
+		</div>
+	</li>
+</ul>
+</div>
+
+<div class="clearfix"></div>
+<div>
+
+<h3>Módulos:</h3>
+	<div class="clearfix"></div>
+<div class="pagina">| {{totalModulos}} módulos, página {{pagina}} de {{cantPaginas}} |</div>
+<ul class="materiass-list" *ngIf="identity"> 
+	<li *ngFor="let modulo of modulos"  class="col-lg-4 materiass-item">
+					<div class="materiass-name" >	
+						<a href="#" [routerLink]="['/modulo', modulo._id]">
+							<b>{{modulo.nombre}}</b></a> <br> De <a href="#" [routerLink]="['/materia', modulo.materia._id]"> {{modulo.materia.nombre}} - {{modulo.ano_cursado}} AÑO</a>
+						<br>
+						
+						Prof/res: 
+						<a class= "docente-name" href="#" [routerLink]="['/docente', modulo.profesor1._id]">{{modulo.profesor1.surname}}, {{modulo.profesor1.name}}</a>
+						<br> 
+						<a *ngIf="modulo.profesor2" class= "docente-name" href="#" [routerLink]="['/docente', modulo.profesor2._id]">		{{modulo.profesor2.surname}}, {{modulo.profesor2.name}}</a>
+						
+				<!-- 		<div class="buttons" *ngIf="identity.preceptor== true">
+							<a [routerLink]="['/editar-modulo', modulo._id]" class="btn btn-sm btn-warning">Editar
+							</a>
+							<a (click)="onDeleteConfirm(modulo._id)" class="btn btn-sm btn-danger">
+								Borrar
+							</a>
+
+
+						</div>
+
+						<div class="seguro" *ngIf="confirmado==modulo._id">
+							<a (click)="onDeleteModulo(modulo._id)" class="btn btn-sm btn-danger">
+								Eliminar
+							</a>
+							<a (click)="onCancelModuloa()" class="btn btn-sm btn-primary">
+								Cancelar
+							</a>
+						</div> -->
+
+
+					</div>
+				</li>
+</ul>
+</div>
+
+
+
+
+

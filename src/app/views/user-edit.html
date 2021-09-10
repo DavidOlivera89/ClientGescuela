@@ -1,0 +1,219 @@
+<div class="col-lg-6" *ngIf="identity && identity.alumno==true || identity.profesor==true || identity.tutor==true" >
+	<form #usuarioUpdateForm= "ngForm" (ngSubmit)= "onSubmit()" class= "col-md-10">
+
+		<h1>{{titulo}}</h1>
+		<p>
+			<label>Nombre:</label>
+			<input type="text" #name="ngModel" name="name" [(ngModel)]="usuario.name" class="form-control" required disabled="true" />
+			<span *ngIf="!name.valid && name.touched">
+				El nombre es obligatorio
+			</span>
+		</p>
+		
+		<p>
+			<label>Apellidos:</label>
+			<input type="text" name="surname" #surname="ngModel" [(ngModel)]="usuario.surname" class="form-control" required disabled="true" />
+			<span *ngIf="!surname.valid && surname.touched">
+				Los apellidos son obligatorios
+			</span>
+
+		</p>		
+
+		<p>
+			<label>Correo electrónico</label>
+			<input type="email" name="email" #email="ngModel" [(ngModel)]="usuario.email" class="form-control" required disabled="true"/>
+			<span *ngIf="email.valid && email.touched">
+				El email es obligatorio
+			</span>
+
+		</p>
+
+		<p>
+			<label>N° de documento:</label>
+			<input type="n_dni" name="n_dni" #n_dni="ngModel" [(ngModel)]="usuario.n_dni" class="form-control" required disabled="true"/>
+			
+
+		</p>
+
+		<p>
+			<label>Fecha de nacimiento:</label>
+			<input type="fecha_nacimiento" name="fecha_nacimiento" #fecha_nacimiento="ngModel" [(ngModel)]="usuario.fecha_nacimiento" class="form-control" required disabled="true"/>
+			
+		</p>
+
+		<p>
+			<label>N° telefónico:</label>
+			<input type="telefono" name="telefono" #telefono="ngModel" [(ngModel)]="usuario.telefono" class="form-control" required disabled="true"/>
+			
+		</p>
+		<br>
+			
+			 
+			<a (click)="setCambiarClave()" class="btn btn-sm btn-warning">		Cambiar clave
+		</a>
+		<br>
+		<br>
+ 		<div *ngIf= cambiarClave>
+ 		
+ 		<p>
+			<label>Ingrese la clave actual:</label>
+			<br>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="clave.actual" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched">
+				Es obligatorio ingresar la contraseña actual.
+			</span>
+		
+		</p>
+
+		<p>
+			<label>Ingrese la nueva clave que desea generar:</label>
+			<br>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="clave.nueva" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched">
+				Es obligatorio ingresar la nueva contraseña.
+			</span>
+		
+		</p>
+
+		<p>
+			<label>Reingrese la clave nueva:</label>
+			<br>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="clave.reingresanueva" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched">
+				Es obligatorio reingresar la nueva contraseña.
+			</span>
+		
+		</p>
+			
+			<input type="submit" value="Cambiar Contraseña" class="btn btn-primary" />
+	 
+	 	</div>
+	 </form>
+</div>
+
+
+<!----------------------------Acá si es preceptor-------------------------!-->
+
+
+<div class="col-lg-6" *ngIf="identity && identity.preceptor==true" >
+	<h1>
+		{{titulo}}
+		<!--FORMULARIO-->
+	</h1>
+
+	<div *ngIf = "alertMessage">
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+			
+	</div>
+
+	<form #usuarioUpdateForm= "ngForm" (ngSubmit)= "onSubmit()" class= "col-md-10">
+		<p>
+			<label>Nombre:</label>
+			<input type="text" #name="ngModel" name="name" [(ngModel)]="usuario.name" class="form-control" required disabled="true"/>
+			<span *ngIf="!name.valid && name.touched">
+				El nombre es obligatorio
+			</span>
+		</p>
+		
+		<p>
+			<label>Apellidos:</label>
+			<input type="text" name="surname" #surname="ngModel" [(ngModel)]="usuario.surname" class="form-control" required disabled="true"/>
+			<span *ngIf="!surname.valid && surname.touched">
+				Los apellidos son obligatorios
+			</span>
+
+		</p>		
+
+		<p>
+			<label>Correo electrónico:</label>
+			<input type="email" name="email" #email="ngModel" [(ngModel)]="usuario.email" class="form-control" required disabled="true" />
+			<span *ngIf="email.valid && email.touched">
+				El email es obligatorio
+			</span>
+
+		</p>
+
+		<p>
+			<label>N° de documento:</label>
+			<input type="n_dni" name="n_dni" #n_dni="ngModel" [(ngModel)]="usuario.n_dni" class="form-control" required disabled="true"/>
+			
+
+		</p>
+
+		<p>
+			<label>Fecha de nacimiento:</label>
+			<input type="fecha_nacimiento" name="fecha_nacimiento" #fecha_nacimiento="ngModel" [(ngModel)]="usuario.fecha_nacimiento" class="form-control" required disabled="true"/>
+			
+		</p>
+
+		<p>
+			<label>N° telefónico:</label>
+			<input type="telefono" name="telefono" #telefono="ngModel" [(ngModel)]="usuario.telefono" class="form-control" required disabled="true"/>
+			
+		</p>
+		<br>
+		<!-- <div class="image_for_edit" *ngIf= "usuario.image && usuario.image != 'null'">
+			<img src="{{url + 'getImageDocente/' + usuario.image}}" style="width: 160px;" />
+			
+		</div> -->
+
+		<!-- <p>
+			<label>Sube una foto</label>
+			<input type="file" placeholder="Subir imagen..." (change)="fileChangeEvent($event)"/>
+		</p>
+ -->	
+ 		<a (click)="setCambiarClave()" class="btn btn-sm btn-warning">		Cambiar clave
+		</a>
+		<br>
+		<br>
+ 		<div *ngIf= cambiarClave>
+ 		
+ 		<p>
+			<label>Ingrese la clave actual:</label>
+			<br>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="clave.actual" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched">
+				Es obligatorio ingresar la contraseña actual.
+			</span>
+		
+		</p>
+
+		<p>
+			<label>Ingrese la nueva clave que desea generar:</label>
+			<br>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="clave.nueva" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched">
+				Es obligatorio ingresar la nueva contraseña.
+			</span>
+		
+		</p>
+
+		<p>
+			<label>Reingrese la clave nueva:</label>
+			<br>
+			<input type="password" name="password" #password="ngModel" [(ngModel)]="clave.reingresanueva" class="form-control" required />
+			<span *ngIf="!password.valid && password.touched">
+				Es obligatorio reingresar la nueva contraseña.
+			</span>
+		
+		</p>
+
+		<input type="submit" value="Confirmar actualizacion de clave" class="btn btn-primary"  />
+
+ 		</div>
+	</form>
+</div>
+
+
+
+
+
+
+
+
+
+
+

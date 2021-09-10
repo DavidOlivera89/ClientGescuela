@@ -1,0 +1,68 @@
+<div *ngIf="identity && identity.alumno!=true" class="curso-box" >
+<a href="#" [routerLink]="['/materia', materia._id]" >
+	<h1 class="curso-titulo">
+	{{materia.nombre}}  /  {{materia.ano_cursado}} año / {{materia.ano_gregoriano}}
+</h1>
+</a>	
+Profesor/es:
+<a href="#" [routerLink]="['/docente', materia.profesor1._id]" >	
+	{{materia.profesor1.surname}}, {{materia.profesor1.name}}
+</a>
+--
+<a *ngIf="materia.profesor2" href="#" [routerLink]="['/docente', materia.profesor2._id]" >	
+	{{materia.profesor2.surname}}, {{materia.profesor2.name}}
+</a>
+	
+<br>
+<br>
+<!-- <a [routerLink]= "['/añadir-nota-materia-todos', materia._id]" *ngIf="identity._id== materia.profesor1 || identity._id == materia.profesor2 "  class="btn btn-default" >Añadir Nota</a>
+ -->
+<div class="clearfix"></div>
+Seleccionar curso:
+<br>
+
+<ul class="botones-selectores-list">
+	<li *ngFor="let curso of cursos"  class="col-lg-2 selector-item">
+	<a [routerLink]= "['/notas-por-curso', curso._id, materia._id]" *ngIf="identity._id == materia.profesor1._id || identity.preceptor== true	|| identity.tutor==true || identity._id == materia.profesor2._id"  class="btn btn-default" >Notas de {{curso.ano}} - {{curso.division}} - {{curso.ano_gregoriano}}</a>
+
+</ul>
+<br>
+<hr>
+		<!-- <div class="clearfix"></div>
+		<h2>Notas de la Materia:</h2>
+		<ul class="observaciones-list" *ngIf="identity.alumno!=true"> 
+		<li *ngFor="let observacionCurso of observacionesCurso"  class="col-lg-8 observacion-item">
+			<div class="observacion-name" >	
+										
+					<p>
+					El docente <a href="link-docente"  [routerLink]="['/docente', observacionCurso.docente_observador._id]">{{observacionCurso.docente_observador.name}} {{observacionCurso.docente_observador.surname}}</a>, el día {{observacionCurso.fecha}} a las {{observacionCurso.hora}} escribió:
+					</p>
+					<p>{{observacionCurso.descripcion}}	
+					
+					</p>
+			 	<div class="buttons-observacionCurso" *ngIf="identity._id==observacionCurso.docente_observador._id">
+					<a [routerLink]="['/editar-observacion', observacionCurso._id]" class="btn btn-sm btn-warning">Editar  
+					</a>
+					<a (click)="onDeleteConfirm(observacionCurso._id)" class="btn btn-sm btn-danger">
+						Borrar
+					</a>
+
+
+				</div>
+
+				<div class="seguro" *ngIf="confirmado==observacionCurso._id">
+					<a (click)="onDeleteObservacion(observacionesCurso._id)" class="btn btn-sm btn-danger">
+						Eliminar
+					</a>
+					<a (click)="onCancelObservacion()" class="btn btn-sm btn-primary">
+						Cancelar
+					</a>
+ 				</div>
+ 
+
+				
+			</div>
+		</li>
+	</ul> -->
+
+</div>

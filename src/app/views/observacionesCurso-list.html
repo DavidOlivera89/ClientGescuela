@@ -1,0 +1,73 @@
+<div id="Notas" *ngIf="curso && identity && identity.alumno!=true" class="curso-box" >
+<a href="#" [routerLink]="['/curso', curso._id]" >
+	<h1 class="curso-titulo">
+		{{curso.ano}}
+		{{curso.division}}
+		{{curso.ano_gregoriano}}
+	</h1>
+</a>	
+Preceptor/es:
+<a *ngIf="curso.preceptor1" href="#" [routerLink]="['/docente', curso.preceptor1._id]" >	
+	{{curso.preceptor1.surname}}, {{curso.preceptor1.name}}
+</a>
+--
+<a *ngIf= "curso.preceptor2" href="#" [routerLink]="['/docente', curso.preceptor2._id]" >	
+	{{curso.preceptor2.surname}}, {{curso.preceptor2.name}}
+</a>
+<br>
+Tutor:
+<a *ngIf= "curso.tutor" href="#" [routerLink]="['/docente', curso.tutor._id]" >	
+	{{curso.tutor.surname}}, {{curso.tutor.name}}
+</a>
+<br>
+<br>
+<br>
+<a [routerLink]= "['/curso', curso._id]"  class="btn btn-default" >Volver</a>
+
+<a [routerLink]= "['/crear-observacion-curso', curso._id]" *ngIf="identity.preceptor == true || identity.profesor == true || identity.tutor == true"  class="btn btn-default" >Añadir Observación</a>
+
+<!-- <a *ngIf="identity.preceptor == true" (click)="downloadPDF()" class="btn btn-default ">
+	Descargar PDF
+</a>  -->
+
+<hr>
+<h3>Observaciones del Curso:</h3>
+
+<ul class="observaciones-list" *ngIf="identity.alumno!=true"> 
+
+		<div class="clearfix"></div>
+		<li *ngFor="let observacionCurso of observacionesCurso"  class="col-lg-8 observacion-item">
+			<div class="observacion-name" >	
+										
+					<p>
+					El docente <a href="link-docente"  [routerLink]="['/docente', observacionCurso.docente_observador._id]">{{observacionCurso.docente_observador.name}} {{observacionCurso.docente_observador.surname}}</a>, el día {{observacionCurso.fecha}} a las {{observacionCurso.hora}}, escribió:
+					</p>
+					<p>{{observacionCurso.descripcion}} <a *ngIf="identity && observacionCurso.docente_observador._id==identity._id "  href="link-docente"  [routerLink]="['/observacion-curso-edit', observacionCurso._id]">Editar Observación...</a>		
+					
+					</p>
+			 	<!-- <div class="buttons-observacionCurso" *ngIf="identity._id==observacionCurso.docente_observador._id">
+					<a [routerLink]="['/editar-observacion', observacionCurso._id]" class="btn btn-sm btn-warning">Editar  
+					</a>
+					<a (click)="onDeleteConfirm(observacionCurso._id)" class="btn btn-sm btn-danger">
+						Borrar
+					</a>
+
+
+				</div>
+
+				<div class="seguro" *ngIf="confirmado==observacionCurso._id">
+					<a (click)="onDeleteObservacion(observacionesCurso._id)" class="btn btn-sm btn-danger">
+						Eliminar
+					</a>
+					<a (click)="onCancelObservacion()" class="btn btn-sm btn-primary">
+						Cancelar
+					</a>
+ 				</div> -->
+ 
+
+				
+			</div>
+		</li>
+	</ul>
+
+</div>

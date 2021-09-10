@@ -1,0 +1,57 @@
+<div *ngIf="identity && modulo && identity.alumno!=true" class="curso-box" >
+<a href="#" [routerLink]="['/materia', modulo.materia._id]" >
+	<h1 class="curso-titulo">
+	{{modulo.materia.nombre}}  /  {{modulo.materia.ano_cursado}} año / {{modulo.materia.ano_gregoriano}}
+</h1>
+</a>
+<a href="#" [routerLink]="['/modulo', modulo._id]" >
+	<h1 class="curso-titulo">
+	{{modulo.nombre}}
+	
+	</h1>
+</a>	
+	
+Profesor/es:
+<a href="#" [routerLink]="['/docente', modulo.profesor1._id]" >	
+	{{modulo.profesor1.surname}}, {{modulo.profesor1.name}}
+</a>
+--
+<a *ngIf= "modulo.profesor2" href="#" [routerLink]="['/docente', modulo.profesor2._id]" >	
+	{{modulo.profesor2.surname}}, {{modulo.profesor2.name}}
+</a>
+	
+<br>
+<br>
+<!-- <a [routerLink]= "['/añadir-nota-materia-todos', materia._id]" *ngIf="identity._id== materia.profesor1 || identity._id == materia.profesor2 "  class="btn btn-default" >Añadir Nota</a>
+ -->
+<div class="clearfix"></div>
+<br>
+<ul class="botones-selectores-list">
+	<li *ngFor="let curso of cursos"  class="col-lg-2 selector-item">
+	<a [routerLink]= "['/notas-modulo-por-curso', curso._id, modulo._id]" *ngIf="identity._id == modulo.profesor1  || identity.preceptor== true	|| identity.tutor==true || identity._id == modulo.profesor2"  class="btn btn-default" >Notas de {{curso.ano}} - {{curso.division}} - {{curso.ano_gregoriano}}</a>
+	
+</ul>
+<br>
+<hr>
+
+		<!-- <div class="clearfix"></div>
+		<h3>Notas del Módulo:</h3>
+		<ul class="observaciones-list" *ngIf="identity.alumno!=true"> 
+		<li *ngFor="let observacionCurso of observacionesCurso"  class="col-lg-8 observacion-item">
+			<div class="observacion-name" >	
+										
+					<p>
+					El docente <a href="link-docente"  [routerLink]="['/docente', observacionCurso.docente_observador._id]">{{observacionCurso.docente_observador.name}} {{observacionCurso.docente_observador.surname}}</a>, el día {{observacionCurso.fecha}} a las {{observacionCurso.hora}} escribió:
+					</p>
+					<p>{{observacionCurso.descripcion}}	
+					
+					</p>
+			 	
+ 
+
+				
+			</div>
+		</li>
+	</ul> -->
+
+</div>

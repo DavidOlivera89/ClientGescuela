@@ -1,0 +1,131 @@
+<div *ngIf="identity && identity.preceptor==true" >
+<a href="#" [routerLink]="['/materia', materia._id]" >
+	<h1 class="curso-titulo">
+	{{materia.nombre}}  /  {{materia.ano_cursado}} año / {{materia.ano_gregoriano}}
+		
+	</h1>
+</a>	
+Profesor/es:
+<a *ngIf="materia.profesor1" href="#" [routerLink]="['/docente', materia.profesor1._id]" >	
+	{{materia.profesor1.surname}}, {{materia.profesor1.name}}
+</a>
+--
+<a *ngIf= "materia.profesor2" href="#" [routerLink]="['/docente', materia.profesor2._id]" >	
+	{{materia.profesor2.surname}}, {{materia.profesor2.name}}
+</a>
+<br>
+<br>
+	<a [routerLink]= "['/materia', materia._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Cancelar</a>
+
+<hr>
+
+<div class='col-lg-6' *ngIf="identity && identity.preceptor == true">
+<h1>{{titulo}}</h1>
+
+	<div *ngIf = "alertMessage">	
+		<div class= "alert alert-info">
+			{{alertMessage}}
+			
+		</div>
+	</div>
+
+<form #formMateria="ngForm" (ngSubmit)="onSubmit()" class="col-lg-8"> 
+	<p>
+		<label>Nombre:</label>
+		<input type="text" #nombre="ngModel" name="nombre" [(ngModel)]="materia.nombre" required class="form-control" disabled="true" />
+		<span *ngIf="!nombre.valid && nombre.touched">
+			Es obligatorio ingresar el nombre de la materia, se recomienda acompañar al nombre con numeros romanos, haciendo referencia al nivel, por ejemplo: Matematica I.
+		</span>	
+	</p>
+
+	<p>
+		<label>Año al que pertenece:</label>
+		<select #ano_cursado="ngModel" name="ano_cursado" [(ngModel)]="materia.ano_cursado"  required class="form-control" placeholder=" °" disabled="true">
+			<option value="1°">1°</option>
+			<option value="2°">2°</option>
+			<option value="3°">3°</option>
+			<option value="4°">4°</option>
+			<option value="5°">5°</option>
+			<option value="6°">6°</option>
+			<option value="7°">7°</option>
+			<option value="8°">8°</option>
+			<option value="9°">9°</option>
+			
+		</select>
+		<span *ngIf="!ano_cursado.valid && ano_cursado.touched">
+			Es obligatorio ingresar el año que se cursa al materia. 
+		</span>
+	</p>
+
+		<p>
+		<label>Año Gregoriano</label>
+		<input type="number" min="2020" max="3000" value="2020"  #ano_gregoriano="ngModel" name="ano_gregoriano" [(ngModel)]="materia.ano_gregoriano" required class="form-control" disabled="true"/>
+		<span *ngIf="!ano_gregoriano.valid && ano_gregoriano.touched">
+			Es obligatorio ingresar el año, según el calendario, en el que existirá y será activa esta materia.
+		</span>
+	</p>
+
+
+		<p>
+			<label>Profesor 1:</label>
+		<select  #profesor1="ngModel" name="profesor1" [(ngModel)]="profesor1Valor" class="form-control" required value={{materia.profesor1._id}} (change)= onProfesor1Change(profesor1.value)>
+		<option [value]="docente._id" *ngFor="let docente of profesores">{{docente.name}} {{docente.surname}} </option>
+		</select>
+		<span *ngIf="!profesor1.valid && profesor1.touched" class="validacion">
+				Es obligatorio seleccionar un profesor.
+			</span>
+		</p>
+
+		<p>
+			<label>Profesor 2:</label>
+		<select #profesor2="ngModel" name="profesor2" [(ngModel)]="profesor2Valor" class="form-control" (change)= onProfesor2Change(profesor2.value)>
+		<option [value]=""></option>
+		<option [value]="docente._id" *ngFor="let docente of profesores">{{docente.name}} {{docente.surname}}</option>
+		</select>
+		<span *ngIf="profesor2Invalid || !profesor2.valid && profesor2.touched" class="validacion">
+				Si se elijen2 profesores éstos deben ser distintos.
+			</span>
+		</p>
+ 
+
+	<p>
+		<label>Horarios:</label>
+		<textarea type="text" #horarios="ngModel" name="horarios" [(ngModel)]="materia.horarios"  class="form-control" rows="3"></textarea>
+		<span >
+			 Se recomienda ingresar los horarios estipulados de la materia siguiendo el ejemplo: "Lunes de 14:00 a 16:00 y Viernes de 13:00 a 15:00hs"
+		</span>	
+	</p>
+
+	<p>
+		<label>Planificacion:</label>
+		<textarea type="text2" #planificacion="ngModel" name="planificacion" [(ngModel)]="materia.planificacion"  class="form-control" rows="3"></textarea>
+		<span>
+			Se puede ingresar un resumen de la planificacion de la materia.
+			
+
+		</span>
+	</p>
+
+		<p>
+		<label>Bibliografia:</label>
+		<textarea type="text3" #bibliografia="ngModel" name="bibliografia" [(ngModel)]="materia.bibliografia"  class="form-control" rows="3"></textarea>
+		<span >
+			Se puede ingresar la bibliografia de la materia.
+			
+
+		</span>
+	</p>
+
+	<!-- <div *ngIf= "is_edit">
+		<label>SI QUIERO ACA PODRIA EDITAR</label>>
+
+	</div> -->
+
+	<input type="submit" value="{{titulo}}" [disabled]="profesor2Invalid || !formMateria.form.valid || nombre=='' || ano_cursado=='' || ano_gregoriano==''"  class="btn btn-succes"/>
+
+</form>
+</div>
+<div class='col-lg-6' *ngIf="!identity || identity.preceptor != true">
+	<h1>Error</h1>
+	<p>No tienes acceso a esta parte de la aplicación.</p>
+</div>

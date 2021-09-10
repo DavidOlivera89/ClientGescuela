@@ -1,0 +1,98 @@
+<div id="Notas" *ngIf="identity && alumno " class="alumno-box">
+	<a href="#" [routerLink]="['/alumno', alumno._id]" >
+		<h1 class="alumno-titulo">
+			{{alumno.name}}
+			{{alumno.surname}}
+		</h1>
+	</a>	
+	<p>Alumno - <a *ngIf= "identity.alumno!=true" href="#" [routerLink]="['/curso', alumno.ultimoCurso._id]" >{{alumno.ultimoCurso.ano}} {{alumno.ultimoCurso.division}} {{alumno.ultimoCurso.ano_gregoriano}}</a><a *ngIf= "identity.alumno==true"  >{{alumno.ultimoCurso.ano}} {{alumno.ultimoCurso.division}} {{alumno.ultimoCurso.ano_gregoriano}}</a></p>
+	<p>{{alumno.email}}</p>
+
+	<br>
+
+	<a [routerLink]= "['/alumno', alumno._id]" *ngIf="identity.preceptor == true"  class="btn btn-default" >Volver</a>
+
+<!-- 	<a [routerLink]= "['/observaciones-alumno', alumno._id]" *ngIf="identity.preceptor == true || identity.profesor==true || identity.tutor==true || identity._id== alumno._id"  class="btn btn-default" >Ver Observaciones</a>
+-->
+<a [routerLink]= "['/notas-alumno', alumno._id]" *ngIf="identity.preceptor == true || identity.tutor==true || identity._id== alumno._id"  class="btn btn-default" >Ver todas las notas</a>
+
+<a (click)="downloadPDF()" class="btn btn-default ">
+	Descargar PDF
+</a>
+<hr>
+
+	
+
+	<div class="clearfix" *ngIf="materias"></div>
+
+	<h2 *ngIf="modulo" class="curso-titulo">Notas del módulo: <a class="curso-titulo" href="#" [routerLink]="['/modulo', modulo._id]">{{modulo.nombre}}</a>, de <a class="curso-titulo" href="#" [routerLink]="['/materia', modulo.materia._id]">{{modulo.materia.nombre}}:</a></h2>
+	
+	
+	<ul class="notas-list" *ngIf="identity.preceptor==true || identity.tutor==true || profesor1 && identity._id == profesor1._id || alumno && identity._id == alumno._id || profesor2 && identity._id==profesor2._id "> 
+
+		<div *ngIf=noHayNotas>
+			No hay notas cargadas.
+		</div>
+
+		<li *ngFor="let notaModulo of notasModulo"  class="col-lg-8 nota-item">
+			<div class="nota-name" >	
+
+				<p>
+					{{notaModulo.identificador}}, </p><p   [ngStyle]="{'color':notaModulo.valor>=6?'green':'red'}"> nota: {{notaModulo.valor}}. El día {{notaModulo.fecha}}.
+				</p> <a *ngIf="profesor1._id==identity._id || profesor2 && profesor2._id==identity._id"  href="link-docente"  [routerLink]="['/nota-modulo-edit', notaModulo._id]">Editar Nota...</a>  
+				<p>{{notaModulo.descripcion}}		
+					
+				</p>
+
+
+				
+			</div>
+		</li>
+
+
+	
+
+	</ul>
+
+	<div class="clearfix" ></div>
+	<br>
+	<div *ngIf="!notaFINAL && promedioNotas>0" class="col-lg-6 nota-item" >
+		<p>PROMEDIO = {{promedioNotas}}</p>
+
+	</div>
+	
+
+
+	<!-- <li *ngFor="let notaModulo of notasModulo"  class="col-lg-8 observacion-item">
+			<div class="observacion-name" >	
+										
+					<p>
+					{{notaModulo.alumno.surname}},  {{notaModulo.alumno.name}}, {{notaModulo.identificador}},  nota: {{notaModulo.valor}}. El día {{notaModulo.fecha}}.
+					</p>
+					<p>{{notaModulo.descripcion}}	
+					
+					</p>
+		
+				
+			</div>
+		</li> -->
+
+	
+
+		<!-- <div class="clearfix" *ngIf=curso></div>
+		<div *ngIf= "identity && identity.alumno!=true">
+			<ul class="cursos-list" *ngIf="identity">
+				<h2>Curso:</h2>	
+				<li  class="col-lg-3 curso-item">
+					<div class="curso-name" >	
+						<a href="#" [routerLink]="['/curso', curso._id]">
+							{{curso.ano}}
+							{{curso.division}}
+							{{curso.ano_gregoriano}}
+						</a>
+
+					</div>
+				</li>
+			</ul>
+		</div> -->
+	</div>

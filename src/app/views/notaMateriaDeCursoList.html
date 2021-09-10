@@ -1,0 +1,105 @@
+
+<div >
+	<div  *ngIf="identity && identity.alumno!=true" class="curso-box" >
+		<a href="#" [routerLink]="['/materia', materia._id]" >
+			<h1 class="curso-titulo">
+				{{materia.nombre}}  /  {{materia.ano_cursado}} año / {{materia.ano_gregoriano}}
+			</h1>
+		</a>	
+		Profesor/es:
+		<a href="#" [routerLink]="['/docente', materia.profesor1._id]" >	
+			{{materia.profesor1.surname}}, {{materia.profesor1.name}}
+		</a>
+		--
+		<a *ngIf="materia.profesor2" href="#" [routerLink]="['/docente', materia.profesor2._id]" >	
+			{{materia.profesor2.surname}}, {{materia.profesor2.name}}
+		</a>
+
+		<br>
+		<br>
+
+		<div class="clearfix"></div>
+		
+		Seleccionar curso:
+		<br>
+		<ul class="botones-selectores-list">
+			<li *ngFor="let curso of cursos"  class="col-lg-2 selector-item">
+				<a [routerLink]= "['/notas-por-curso', curso._id, materia._id]" *ngIf="identity._id == materia.profesor1._id || identity.preceptor== true	|| identity.tutor==true || identity._id == materia.profesor2._id"  class="btn btn-default" >Notas de {{curso.ano}} - {{curso.division}} - {{curso.ano_gregoriano}}</a> 
+			</li>
+
+		</ul>
+		
+		<br>
+		<hr>
+		<br>
+		<a *ngIf="cursoActual" href="#" [routerLink]="['/curso', cursoActual._id]" >
+			<h1 class="curso-titulo">
+				Curso: {{cursoActual.ano}}  {{cursoActual.division}}  {{cursoActual.ano_gregoriano}}
+			</h1>
+		</a>	
+		<div class="clearfix"></div>
+		<div>
+			<a *ngIf="cursoActual && materia && identity._id== materia.profesor1._id || materia.profesor2 && identity._id == materia.profesor2._id " [routerLink]= "['/nota-materia-add', materia._id, cursoActual._id]"  class="btn btn-default" >Añadir Nota</a>
+
+			<a *ngIf="cursoActual && materia && identity.preceptor==true || identity.tutor==true || identity._id== materia.profesor1._id || materia.profesor2 && identity._id == materia.profesor2._id " (click)=mostrarTodasLasNotas()  class="btn btn-default" >Ver todas las Notas</a>
+
+			<a *ngIf="cursoActual && materia && identity.preceptor==true || identity.tutor==true || identity._id== materia.profesor1._id || materia.profesor2 && identity._id == materia.profesor2._id " (click)=mostrarNotasFinales()  class="btn btn-default" >Ver Notas Finales</a>
+
+			
+		</div>
+
+		
+		<div class="clearfix"></div>
+		
+			<h3>Notas de la Materia:</h3>
+			
+			<ul class="notas-list" *ngIf="identity._id == materia.profesor1._id || identity.preceptor== true	|| identity.tutor==true || identity._id == materia.profesor2._id"> 
+
+
+
+				<li  *ngFor="let alumnosCurso of alumnosCurso"  class="col-lg-8 nota-item">
+					<a  *ngIf= alumnosCurso.alumno href="link-docente"  [routerLink]="['/alumno', alumnosCurso.alumno._id]">{{alumnosCurso.alumno.surname}} {{alumnosCurso.alumno.name}}
+					</a>
+
+					
+
+						<div *ngFor="let notaMateriaCurso of notasMateriaCurso"   class="col-lg-12 nota-item">
+							<li id = "Notas" *ngIf= "notaMateriaCurso.alumno && alumnosCurso.alumno._id == notaMateriaCurso.alumno._id" class="nota-name" >	
+
+								<p>
+									{{notaMateriaCurso.identificador}},  nota: {{notaMateriaCurso.valor}}. El día {{notaMateriaCurso.fecha}}.-  <a *ngIf="materia.profesor1._id==identity._id || materia.profesor2 && materia.profesor2._id==identity._id"  href="link-docente"  [routerLink]="['/nota-materia-edit', notaMateriaCurso._id]">Editar Nota...</a>  
+
+								</p>
+
+
+								<p>{{notaMateriaCurso.descripcion}}	
+
+
+								</p>
+								<div class="seguro" *ngIf="identity.profesor == true && confirmado==notaMateriaCurso._id">
+									<label>¿Estas seguro?</label>
+									<a (click)="onDeleteNota(notaMateriaCurso._id)" class="btn btn-sm btn-danger">
+										Eliminar
+									</a>
+									<a (click)="onCancelNota()" class="btn btn-sm btn-primary">
+										Cancelar
+									</a>
+								</div>
+
+							</li>
+
+						</div>
+
+						<!-- -->
+					
+				</li>
+				<!-- -->
+			</ul>
+
+			--
+		
+
+	</div>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script> -->
+	<!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+</div>
